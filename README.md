@@ -1,5 +1,5 @@
 <p align="center">
-  <img src="https://wazuh.com/uploads/2026/06/wazuh-logo-square.png" width="240" alt="Wazuh logo">
+  <img src="https://redtiseg.com/wp-content/uploads/2026/01/WAZUH-LOGO.png" width="240" alt="Wazuh logo">
 </p>
 
 # Wazuh: Software Engineer Technical Task
