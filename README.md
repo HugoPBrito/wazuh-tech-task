@@ -5,3 +5,12 @@
 # Wazuh: Software Engineer Technical Task
 
 This repository will collect the research, SaaS design, and AI-assisted engineering workflow documentation for the Wazuh technical task.
+
+## Deliverables
+
+Each phase groups its document and supporting assets in its own directory.
+
+- [Phase 1](phase1/PHASE1.md)
+- Phase 2: In progress
+- Phase 3: Planned
+- Phase 4: Planned
