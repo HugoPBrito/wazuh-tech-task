@@ -11,6 +11,6 @@ This repository will collect the research, SaaS design, and AI-assisted engineer
 Each phase groups its document and supporting assets in its own directory.
 
 - [Phase 1](phase1/PHASE1.md)
-- Phase 2: In progress
+- [Phase 2](phase2/PHASE2.md)
 - Phase 3: Planned
 - Phase 4: Planned
