@@ -16,7 +16,7 @@ I treated this need as a hypothesis informed by experience and public analogs, n
 |---|---|
 | [Community request to investigate, assign, and close alerts](https://groups.google.com/g/wazuh/c/-fNsty6bIUY), and [selective escalation request #33328](https://github.com/wazuh/wazuh/issues/33328) | Direct evidence of follow-up friction, not proof that users requested private chat or would pay for it. |
 | Requests for [complete exports](https://groups.google.com/g/wazuh/c/-bYUdw0mqAI), [module schedules](https://groups.google.com/g/wazuh/c/rPn3fO7yZlg), and [per-agent reports](https://groups.google.com/g/wazuh/c/ajH6P920mlo) | Reporting remains a credible alternative. One requester confirms dashboard scheduling works; reporting is not wholly absent. |
-| [Prowler MCP](https://docs.prowler.com/getting-started/products/prowler-mcp) and [Lighthouse tutorial](https://github.com/prowler-cloud/prowler/blob/master/docs/user-guide/tutorials/prowler-app-lighthouse.mdx) | Public examples distinguish an integration interface from a read-only assistant experience; they do not prove all inference runs locally. |
+| [Prowler MCP](https://docs.prowler.com/getting-started/products/prowler-mcp) and [Lighthouse tutorial](https://docs.prowler.com/user-guide/tutorials/prowler-app-lighthouse) | Public examples distinguish an integration interface from a read-only assistant experience; they do not prove all inference runs locally. |
 
 I retained the sources and original measurements rather than refreshing them. Labels, replies, reactions, and recurring accounts do not form a customer census. The [expanded catalog](RESEARCH-v2.md) preserves the broader evidence and its limits.
 
@@ -40,138 +40,181 @@ Self-operated inference offers control, not automatic security or compliance. Pe
 
 ## Retrospective process: requests, replies, and corrections
 
-**I reconstructed this account from retained task exchanges; it was not documented alongside the original research.** I labelled translated excerpts and edited summaries separately. I also identified excerpts recovered from the main conversation; where the initial AI wording was unavailable, I kept a labelled summary. Internal research-worker commentary is not a main-conversation reply. The full conversation remains private.
+**I reconstructed this account from retained task exchanges; it was not documented alongside the original research.** The stages below follow the order of the decisions. Each has a short account and an expandable record of the retained exchanges.
 
-### 1. Broad community research and an explicit deliverable
+I labelled translated excerpts and edited summaries separately, including excerpts recovered from the main conversation. Where the initial AI wording was unavailable, I kept a labelled summary. Internal research-worker commentary is not a main-conversation reply. The full conversation remains private.
 
-**My request — translated excerpt:**
+### 1. I began with community research, not a service choice
+
+I asked for broad research into open Wazuh feature requests, repeated comments and reactions, forums, and documentation. Three bounded, independent AI readers checked the actual, nonuniform labels. This was not an organization-wide census, and I had not selected a need.
+
+The AI recommended reducing the manual work needed to use Wazuh data. I then asked for sources and conversation evidence, no dates, and two local artifacts. [V1's process record](RESEARCH-v1.md#retrospective-process-context-how-this-draft-was-produced) retains those prompts.
+
+<details>
+<summary>Retained exchanges: research request and initial recommendation</summary>
+
+**My request (translated excerpt):**
 
 > I want you to thoroughly research all open Wazuh issues that have a "feature request" label.
 
-I also asked for repeated comments/reactions, forums, and documentation. Three bounded, independent AI readers checked actual, nonuniform labels; this was not an organization-wide census.
-
-**AI response — translated excerpt recovered from the main conversation:**
+**AI response (translated excerpt recovered from the main conversation):**
 
 > **The best-supported needs are not about “adding AI to Wazuh,” but about reducing the manual work needed to turn its data into useful results.**
 
-I asked for sources and conversation evidence, no dates, and two local artifacts. [V1's process record](RESEARCH-v1.md#retrospective-process-context-how-this-draft-was-produced) contains those prompts. I had not selected a need at this stage; these were the AI's recommendations.
+</details>
 
-### 2. Resumption, MCP, and competitor expansion
+### 2. I resumed the research and added MCP and competitors
 
-After asking to pause research-document construction so I could continue the discussion, I explicitly resumed it and added MCP:
+I paused research-document construction to continue the discussion, then explicitly resumed it and added MCP. I also requested comparisons with Elastic, Security Onion, Graylog, Splunk, Falcon, and Sentinel. The AI checked native reporting, AI, authorization, and existing integrations rather than assuming gaps.
 
-**My request — translated excerpt:**
+The [expanded report](RESEARCH-v2.md#retrospective-process-context-how-the-expansion-was-produced) gave me reporting and case-workflow options to compare. MCP was a possible integration foundation, not the user need, and I had not approved a service.
+
+<details>
+<summary>Retained exchanges: MCP's role in the expanded research</summary>
+
+**My request (translated excerpt):**
 
 > Add information about a possible MCP to the research too, because it could serve as a foundation for many AI integrations.
 
-I also asked for comparisons with Elastic, Security Onion, Graylog, Splunk, Falcon, and Sentinel. The AI checked native reporting, AI, authorization, and existing integrations rather than assuming gaps.
-
-**AI response — translated excerpt:**
+**AI response (translated excerpt):**
 
 > **MCP would be a reusable integration foundation, not the user's need or a differentiator in itself.**
 
-The [expanded report](RESEARCH-v2.md#retrospective-process-context-how-the-expansion-was-produced) gave me reporting and case-workflow options to compare; I had not approved a service.
+</details>
 
-### 3. Initial earlier-recognition choice: articles and paper
+### 3. I first chose earlier attack recognition
 
-I first selected earlier recognition using the vendor articles:
+I initially selected earlier recognition using the vendor articles, with the condition that it should not increase alert fatigue. The AI accepted that direction while pointing out native overlap and fatigue risks. I later supplied the paper, which did not establish operational benefits.
 
-**My request — translated excerpt:**
+<details>
+<summary>Retained exchange: the initial choice and fatigue constraint</summary>
+
+**My request (translated excerpt):**
 
 > That will be the selected need, but we need to avoid increasing fatigue too much
 
-The AI accepted that direction while pointing out native overlap and fatigue risks. I later supplied the paper, which did not establish operational benefits.
+</details>
 
-### 4. Simplify, restore community evidence, and remove personal context
+### 4. I simplified the comparison, then restored its evidence
 
-I had questions about the tradeoffs and asked for a shorter comparison of the two needs, with their main advantages and drawbacks. I wanted to decide on the need before discussing solution details:
+I still had questions about the tradeoffs. I asked for a shorter comparison of the two needs, with their main advantages and drawbacks, so I could choose a need before discussing solutions. The AI produced the [67-line comparison](RESEARCH-v3.md#retrospective-process-context-how-the-short-comparison-was-produced) and deleted the redundant brief.
 
-**My request — translated excerpt:**
+I then asked to restore community evidence and save recoverable earlier states. After that, I asked to remove personal experience from the research and stop creating new historical versions automatically. The AI confirmed that it had removed those references and kept the research focused on needs and sources.
+
+<details>
+<summary>Retained exchanges: comparison scope and subsequent cleanup</summary>
+
+**My request about the comparison (translated excerpt):**
 
 > We should not focus on the solution for now, only on which need we are addressing.
 
-**AI response — translated excerpt:**
+**AI response (translated excerpt):**
 
 > No algorithms, architecture, or technical decisions.
 
-The AI produced the [67-line comparison](RESEARCH-v3.md#retrospective-process-context-how-the-short-comparison-was-produced) and deleted the redundant brief. I then asked to restore community evidence and save recoverable earlier states. I also made the next cleanup explicit:
-
-**My request — translated excerpt recovered from the main conversation:**
+**My later cleanup request (translated excerpt recovered from the main conversation):**
 
 > Do not include me or my experience in the research. Do not generate any new history.
 
-I asked to remove personal experience from the research and stop creating new historical versions automatically. The AI confirmed that it had removed those references and kept the research focused on needs and sources.
-
-**AI response — translated excerpt recovered from the main conversation:**
+**AI response (translated excerpt recovered from the main conversation):**
 
 > **I have not created any new version or modified the existing history.** No commit or push.
 
-### 5. Provisional alert follow-up, drafting, and MCP set aside
+</details>
 
-After restoring the community evidence, I authorized English Phase 2 and partial Phase 4 drafts for alert follow-up. I briefly considered official MCP, then asked to set it aside:
+### 5. I provisionally chose alert follow-up and authorized drafting
 
-**My request — translated excerpt:**
+With the community evidence restored, I authorized English Phase 2 and partial Phase 4 drafts for alert follow-up. I briefly considered official MCP, then asked to set it aside and finish the write-up with choice A. This was an intermediate choice, not the current conclusion.
+
+<details>
+<summary>Retained exchanges: finish the alert-follow-up draft without MCP</summary>
+
+**My request (translated excerpt):**
 
 > Let's ignore this for now, then. Finish the write-up with choice A.
 
-**AI response — translated excerpt:**
+**AI response (translated excerpt):**
 
 > I will finish the Phase 2 write-up with choice A and leave out this latest official-MCP alternative.
 
-This was my intermediate choice, not the current conclusion.
+</details>
 
-### 6. Stop: AI must be part of the product
+### 6. I stopped drafting after recognizing the in-product AI emphasis
 
-**My request — translated excerpt:**
+Late in drafting, I noticed that the Phase 3 questions expected AI within the service, not only as a tool for preparing it. I stopped the work and asked the AI to reread the assignment. Its questions about AI calls, answer evaluation and degradation, and model outages concerned the service itself.
+
+I had identified that requirement late, and the assistant had not flagged it earlier. It acknowledged that the alert-follow-up draft had centered on states, assignments, and tickets, leaving AI peripheral. AI could still fit the earlier ideas; this check changed my selection criterion rather than invalidating them.
+
+<details>
+<summary>Retained exchanges: the late requirement check and correction</summary>
+
+**My request (translated excerpt):**
 
 > Stop for a moment, because several Phase 3 questions indicate or imply that AI should be a central part of the new functionality.
 
-The AI stopped and reread the assignment: AI calls, answer evaluation/degradation, and model outages concerned the service itself.
-
-**AI response — translated excerpt:**
+**AI response (translated excerpt):**
 
 > I have steered option A too far toward **states, assignments, and tickets**, leaving AI as a poorly defined supporting element.
 
-I identified this requirement late, and the assistant had not flagged it earlier. AI could fit the earlier ideas; this check changed my criterion rather than invalidating them.
+</details>
 
-### 7. Chat is the experience; MCP and inference have different roles
+### 7. I moved to chat and clarified the inference boundary
 
-**My request — translated excerpt:**
+I then favored a chatbot for controlled investigation. The AI distinguished the chat experience from MCP's integration role and explained that official or local MCP alone does not protect data. Model location also matters.
+
+I clarified that I meant inference operated within Wazuh Cloud. The boundary was the Wazuh-operated platform, not necessarily the customer's infrastructure. I kept it as a proposal, not a deployment fact or compliance guarantee.
+
+<details>
+<summary>Retained exchanges: chatbot direction and Wazuh-operated inference</summary>
+
+**My request about the experience (translated excerpt):**
 
 > I think it makes the most sense to move to a chatbot solution
 
-The AI distinguished controlled investigation from the chat interface and correctly explained that official/local MCP alone does not protect data. Model location also matters. I clarified the inference boundary I had in mind:
-
-**My request — translated excerpt:**
+**My clarification about inference (translated excerpt):**
 
 > But if we support the AI models locally in our Wazuh Cloud deployment, then we could control security.
 
-**AI response — translated excerpt:**
+**AI response (translated excerpt):**
 
 > The correct promise would be **“the data is processed within the platform operated by Wazuh”**, not necessarily “within the customer's infrastructure.”
 
-I kept that as a proposed boundary, not a deployment fact or compliance guarantee.
+</details>
 
-### 8. Explicit replacement choice and correction record
+### 8. I explicitly replaced the choice with the investigation assistant
 
-**My request — translated excerpt:**
+I asked the AI to rewrite Phase 2 around the investigation assistant for Wazuh Cloud and record the correction in partial Phase 4. I also asked it to acknowledge the late discovery fairly. The AI rewrote Phase 2 around that choice, with proposed Wazuh-operated inference and authorized evidence access through MCP. It also recorded the corrections in partial Phase 4.
+
+I kept unapproved corporate AI use as a risk hypothesis, not a measured practice. At that point, I had not completed Phase 3 or implemented the service.
+
+<details>
+<summary>Retained exchanges: authorization to replace the Phase 2 choice</summary>
+
+**My request (translated excerpt):**
 
 > Record this among the corrections I have had to make to you, and write Phase 2 based on this new choice.
 
-**AI response — translated excerpt:**
+**AI response (translated excerpt):**
 
 > I will update Phase 2 with the new choice: the investigation assistant for Wazuh Cloud, with inference operated within its platform and authorized access through MCP.
 
-I also asked to acknowledge the late discovery fairly. The AI rewrote Phase 2 around my new choice and recorded the corrections in partial Phase 4. I kept unapproved corporate AI use as a risk hypothesis, not a measured practice. I had not completed Phase 3 or implemented the service.
+</details>
 
-### 9. Reconstructing the process inside the research
+### 9. I asked to reconstruct the process inside the existing research
 
-**My request — translated excerpt:**
+I later authorized selected work exchanges inside the existing research files, not a separate log, the full private conversation, or new numbered versions. I preserved source findings and historical stages while editing the narration into first person and labelling translations and summaries. The [history metadata](RESEARCH-HISTORY.md) explains those presentation edits and retains reference checksums of the recovered source bodies.
+
+This reconstruction did not authorize new source collection, publication, implementation, or actions against systems. Unrelated project permissions did not extend to publishing these edits.
+
+<details>
+<summary>Retained exchanges: retrospective reconstruction and editorial labels</summary>
+
+**My request (translated excerpt):**
 
 > not as a separate log and documents, but inside the research documents themselves: the prompts that led to those research documents, what I asked you to change, the main research, what I asked for and what I did not, and so on.
 
-**AI response — translated excerpt:**
+**AI response (translated excerpt):**
 
 > I will mark those annotations as retrospective to avoid confusing them with the original text.
 
-I authorized selected work exchanges inside the existing research files, not the full private conversation or new numbered versions. I preserved source findings and historical stages while editing the narration into first person and labelling translations and summaries. The [history metadata](RESEARCH-HISTORY.md) explains those presentation edits and retains reference checksums of the recovered source bodies. I did not authorize new source collection, publication, implementation, or actions against systems for this reconstruction; unrelated project permissions did not extend to publishing these edits.
+</details>
