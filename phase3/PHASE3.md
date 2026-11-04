@@ -363,7 +363,7 @@ sequenceDiagram
     O-->>UI: Validated answer, freshness and coverage
     UI-->>Analyst: Show explanation and evidence links
     Analyst->>UI: Inspect citations and judge the conclusion
-    Note over O,I: One 30-second deadline includes capture; separate metadata logs; no Wazuh operational writes
+    Note over O,I: One 30-second deadline includes capture, separate metadata logs, no Wazuh operational writes
 ```
 
 ## 5. How would you know that the AI gives users good answers, and how would you notice when it stops doing so?
