@@ -9,6 +9,7 @@ flowchart LR
         subgraph Shared["Shared SaaS services"]
             Access["Authorization and scoped reads"]
             Model["Private model"]
+            Trace["Encrypted tenant-scoped product traces"]
         end
         subgraph TB["Tenant B"]
             B["B analyst"]
@@ -16,7 +17,7 @@ flowchart LR
             DB["B records, RBAC and DLS"]
         end
     end
-    External["DENIED: SaaS external AI/judges"]
+    External["DENIED: SaaS external AI/judges/telemetry"]
     %% Layout only: order columns, never authorize access or carry data.
     TA ~~~ Shared
     Shared ~~~ TB
@@ -27,15 +28,16 @@ flowchart LR
     Access <-->|"B-scoped context"| MB
     Access <-->|"B-scoped reads"| DB
     Access <-->|"Authorized evidence only"| Model
+    Access -->|"Admitted content, scoped persistence"| Trace
     Shared -.->|"DENIED: SaaS egress"| External
-    linkStyle 2,3,4,5,6,7,8,9 stroke:#334155,stroke-width:2px,color:#243140
+    linkStyle 2,3,4,5,6,7,8,9,10 stroke:#334155,stroke-width:2px,color:#243140
     classDef tenantA fill:#eaf2ff,stroke:#315b96,color:#172b4d
     classDef tenantB fill:#e6f4f1,stroke:#23786b,color:#123d36
     classDef shared fill:#f1f3f5,stroke:#586574,color:#243140
     classDef denied fill:#fdecec,stroke:#ae3434,color:#701d1d
     class A,MA,DA tenantA
     class B,MB,DB tenantB
-    class Access,Model shared
+    class Access,Model,Trace shared
     class External denied
     style Region fill:#fbfcfd,stroke:#9aa5b1,color:#243140
     style Shared fill:#f1f3f5,stroke:#586574,color:#243140

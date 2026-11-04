@@ -49,7 +49,7 @@
     "output_tokens": "Count every generated token, including internal reasoning, without exposing or logging reasoning.",
     "tool_and_page_attempts": "Repeated tool invocations consume the four-tool allowance. Every page fetch or refetch consumes that invocation's two-page-fetch-attempt allowance, retrieved bytes and retrieval time.",
     "packing": "Remove oldest history and lower-priority evidence first, preserve security instructions/scope/claim support, declare omitted coverage and request smaller input if safe packing cannot fit.",
-    "deadline": "Queue wait, backend retries and output checks consume one absolute deadline from API receipt. No retry grants additional time, tokens, tools or pages."
+    "deadline": "Queue wait, trace persistence, backend/storage retries and output checks consume one absolute deadline from API receipt. Initial capture consumes authorization/admission time, stage appends their stage time and final capture output-validation time. No retry grants additional time, tokens, tools or pages."
   },
   "proposed_admission": {
     "initial_warm_gpu_replicas": 1,
@@ -61,6 +61,25 @@
     "tenant_ceiling_counts": "Queued, active and cancellation-pending requests.",
     "readiness": "Warming/unready replicas contribute zero capacity; unknown readiness or unavailable authorization/state fails closed.",
     "cancellation": "Suppress late output and retain capacity until all downstream work is confirmed stopped. Quarantine uncertain slots rather than release them on disconnect or lease expiry."
+  },
+  "proposed_product_traces": {
+    "status": "proposed_policy_requiring_purpose_disclosure_permission_and_owner_approval_before_collection",
+    "scope": "Authenticated, authorized, admitted hosted-assistant application requests only; not raw HTTP/authentication/health bodies, capacity rejections before admission or unbounded native data. Admitted queue timeouts/cancellations may retain outcome/interrupted traces.",
+    "content": ["original_accepted_question", "conversation_input_actually_used", "model_visible_messages", "non_reasoning_model_outputs_with_validation_and_display_status", "application_response", "authorized_tool_inputs_results_and_context_actually_used", "model_prompt_tool_versions", "scope_coverage_omissions_validation_and_outcome"],
+    "bounds": "Existing per-call/aggregate input and output token caps, page/item caps and aggregate retrieved-byte cap also bound trace content. Reject input that cannot fit safely before content capture.",
+    "excluded": ["authentication_headers", "bearer_tokens", "cookies", "service_or_backend_credentials", "private_keys", "known_secret_fields", "internal_hidden_reasoning_channels"],
+    "secret_handling": "Exclude known secret fields before model context or persistence. Deterministic pasted-secret filtering is best effort, not proof free text is nonsensitive; no redaction model call. Retained user/tool content remains confidential and SaaS protection obligations still apply.",
+    "storage": "Separate approved-region encrypted content store using existing platform storage, restricted keys and no external telemetry/model/judge fallback or plaintext/local content spool.",
+    "access": "Explicit tenant/deployment/content-scoped product-data grants and purpose, audited reads/exports; no default developer/operator/support access or cross-tenant browsing. Privileged content investigations also require explicit scoped audited authorization.",
+    "working_context_ttl_minutes": 15,
+    "proposed_content_retention_days_from_admission": 30,
+    "retention": "Disclose purpose/scope/access/retention to users; delete at original expiry or approved earlier erasure, never reset expiry on append. No context/content-trace backups initially. Any later regional encrypted backup requires bounded expiry and deletion markers enforced before restore access. The separate provisional 30-day security audit does not approve content retention.",
+    "lifecycle": "Durably persist admitted input after validation/authentication/authorization/capacity reservation and before model/tools. Append bounded used content/evidence/outcome at stage boundaries, finalize the validated answer or content-bearing fallback before delivery, all within existing budgets.",
+    "capture_failure": "Fail unavailable before expensive work if initial persistence fails. Stop/cancel further work and withhold unpersisted content after required append/finalization failure; a fixed unavailable notice without question/tool content may be returned without capture. Initial or partial records may remain incomplete until recovery marks interruption. No perfect-capture guarantee, unbounded retries, extra model call or expanded deadline.",
+    "analytics_view_failure": "Continue investigations if durable capture is healthy; review-view availability is not capture availability.",
+    "reuse": "No automatic chat/citation permission restoration, coding-agent context, training or golden-dataset reuse. Any evaluation reuse requires approved purpose/permission, minimization and human review; these 20 synthetic cases remain distinct from real lab responses and proposed production traces.",
+    "operational_logs_and_metrics": "Metadata only, separate from content traces; controlled opaque IDs, counts, versions, timings and outcomes, never application content or secrets.",
+    "standalone_mcp": "Official independent/community servers do not automatically send application content home to Wazuh. Operators choose logging/provider policy while authentication, scoped reads and credential protection remain mandatory."
   },
   "proposed_tool_contract": {
     "agents_list": {
@@ -209,7 +228,9 @@
     "reuse_cross_tenant_conversation_or_prompt_cache",
     "expose_secrets_or_internal_model_reasoning",
     "send_payloads_to_external_models_judges_or_telemetry",
-    "log_raw_prompts_tool_bodies_or_answers"
+    "copy_application_content_to_operational_logs_or_unapproved_sinks",
+    "access_or_disclose_product_traces_without_scoped_authorization",
+    "automatically_reuse_product_traces_as_coding_context_training_or_golden_data"
   ],
   "cases": [
     {

@@ -1,7 +1,8 @@
+%%{init: {"theme": "base", "themeVariables": {"darkMode": false, "background": "#ffffff", "primaryTextColor": "#243140", "textColor": "#243140", "lineColor": "#334155", "defaultLinkColor": "#334155", "arrowheadColor": "#334155", "edgeLabelBackground": "#f8fafc"}}}%%
 flowchart TB
     Human["Analyst: ask and review"]
     UI["Cloud chat UI"]
-    subgraph Region["Proposed hosted SaaS runtime"]
+    subgraph Region["Proposed hosted SaaS approved region"]
         subgraph CPU["One CPU API application, logical modules"]
             Auth["Identity, scope and admission"]
             Orch["Bounded orchestrator"]
@@ -12,7 +13,8 @@ flowchart TB
         Model["Private GPU serving"]
         MCP["Official Wazuh MCP, private instance"]
         State["Shared TTL state and atomic slots"]
-        Audit["Platform payload-free audit"]
+        Trace["Encrypted product traces"]
+        Audit["Operational and security metadata"]
         subgraph Backends["Trusted Wazuh backends"]
             Manager["Manager: agents and rules"]
             Indexer["Indexer: scoped alert search"]
@@ -32,7 +34,8 @@ flowchart TB
     Orch <-->|"Scoped state and admission"| State
     Orch -->|"Answer or controlled fallback"| Output
     Output -->|"Validated result"| UI
-    Orch -->|"Outcomes, not payloads"| Audit
+    Orch -->|"Admitted input, used content and outcome"| Trace
+    Orch -->|"Event metadata only"| Audit
     Manager --> Native
     Indexer --> Native
     classDef application fill:#eaf2ff,stroke:#315b96,color:#172b4d
@@ -41,5 +44,6 @@ flowchart TB
     classDef inference fill:#f1ecfa,stroke:#71539b,color:#35234f
     class Auth,Orch,Plan,Evidence,Output application
     class MCP,Manager,Indexer,Native backend
-    class UI,Human,State,Audit shared
+    class UI,Human,State,Trace,Audit shared
     class Model inference
+    linkStyle default stroke:#334155,stroke-width:2px,color:#243140

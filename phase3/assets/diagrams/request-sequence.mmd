@@ -1,3 +1,4 @@
+%%{init: {"theme": "base", "themeVariables": {"darkMode": false, "background": "#ffffff", "primaryTextColor": "#243140", "textColor": "#243140", "lineColor": "#334155", "arrowheadColor": "#334155", "actorBkg": "#f1f3f5", "actorBorder": "#586574", "actorTextColor": "#243140", "actorLineColor": "#334155", "signalColor": "#334155", "signalTextColor": "#243140", "noteBkgColor": "#f8fafc", "noteTextColor": "#243140", "noteBorderColor": "#586574"}}}%%
 sequenceDiagram
     actor Analyst
     participant UI as Cloud chat UI
@@ -9,6 +10,7 @@ sequenceDiagram
     Analyst->>UI: Select deployment, ask about LAB-HOST-01 alert
     UI->>O: Question and approved access token
     O->>O: Verify identity and scope, reserve shared capacity
+    O->>O: Persist admitted input trace without token or cookies
     O->>M: Model call 1, structured intent and tool plan
     M-->>O: Untrusted workflow and dependency slots
     O->>O: Validate plan, exact selector and total budgets
@@ -32,7 +34,8 @@ sequenceDiagram
     O->>M: Model call 2, packed authorized evidence
     M-->>O: Untrusted explanation and citation IDs
     O->>O: Recheck scope, validate citations and safe output
+    O->>O: Finalize bounded content trace before answer delivery
     O-->>UI: Validated answer, freshness and coverage
     UI-->>Analyst: Show explanation and evidence links
     Analyst->>UI: Inspect citations and judge the conclusion
-    Note over O,I: One 30-second deadline, payload-free audit, no operational writes
+    Note over O,I: One 30-second deadline includes capture; separate metadata logs; no Wazuh operational writes

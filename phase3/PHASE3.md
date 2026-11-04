@@ -19,7 +19,7 @@ I would publish the server code, tool contracts, integration documentation and v
 | Mode | Connection I would support | Inference and data-processing boundary |
 |---|---|---|
 | Hosted Wazuh Cloud assistant | Wazuh would operate a private instance of the official open-source MCP server for the assistant. | Private SaaS inference, tenant/state/audit controls and the hosted request budgets and GPU costs below. |
-| Independent community integration | Developers would configure the official MCP server for their authorized Wazuh deployment and connect a compatible AI client or agent. | Developers could choose their model, including an external provider, under their organization's processing, retention and egress policy. Those client decisions are outside the SaaS offering and its guarantees. |
+| Independent community integration | Developers would configure the official MCP server for their authorized Wazuh deployment and connect a compatible AI client or agent. | Operators would choose their logging and model/provider policy, including any external provider, under their organization's processing, retention and egress rules. The official server would not automatically send application content home to Wazuh. These decisions are outside the SaaS offering and its guarantees. |
 
 Open source would not mean anonymous access, public customer data or automatic access to the SaaS-private endpoint. The MCP would be model-agnostic: it would expose authorized tools, not select or run a community client's LLM. Authentication, effective-user permissions, scoped reads, bounded queries, minimized output and credential protection would remain server-side requirements in both modes.
 
@@ -32,7 +32,7 @@ I would start the hosted assistant with four runtime facilities, reusing existin
 | One CPU API/orchestrator deployment | Token checks, authorization, admission, planning validation, evidence packing and output validation are modules in one application, not separate microservices. CPU replicas would share admission accounting. |
 | One private instance of the official open-source Wazuh MCP server | Expose the same four read-only typed tools, enforce backend scope and validate native response envelopes with separate backend credentials. |
 | Private GPU model serving | Start with one warm ready replica, at most two, using the bounded admission policy in question 7. |
-| One shared regional time-to-live (TTL) state facility | Scoped context/evidence references, authorization versions, and atomic global/tenant admission counters and the small queue. Payload-free audit would reuse platform observability. |
+| Shared regional platform storage | Separate logical stores for time-to-live (TTL) context/evidence references, authorization versions and atomic admission counters/queue, and for encrypted product traces. Operational/security events would reuse platform observability, separate from trace content. |
 
 I would not add a broker, vector database or a service for every logical check. If authorization or shared state were unavailable, the CPU backend would deny admission and protected reads, stop in-flight work safely and withhold output whose scope could not be revalidated. Local fallback state must not bypass the shared limits.
 
@@ -41,10 +41,11 @@ I would not add a broker, vector database or a service for every logical check. 
 Editable source: [components.mmd](assets/diagrams/components.mmd). This proposed hosted SaaS runtime uses a private instance of the official open-source MCP; community clients are described above, outside its private-model boundary. Boxes inside the CPU application are logical modules. Offline evaluation is described in the [evaluation plan](assets/evaluation/EVALUATION-PLAN.md#private-test-topology).
 
 ```mermaid
+%%{init: {"theme": "base", "themeVariables": {"darkMode": false, "background": "#ffffff", "primaryTextColor": "#243140", "textColor": "#243140", "lineColor": "#334155", "defaultLinkColor": "#334155", "arrowheadColor": "#334155", "edgeLabelBackground": "#f8fafc"}}}%%
 flowchart TB
     Human["Analyst: ask and review"]
     UI["Cloud chat UI"]
-    subgraph Region["Proposed hosted SaaS runtime"]
+    subgraph Region["Proposed hosted SaaS approved region"]
         subgraph CPU["One CPU API application, logical modules"]
             Auth["Identity, scope and admission"]
             Orch["Bounded orchestrator"]
@@ -55,7 +56,8 @@ flowchart TB
         Model["Private GPU serving"]
         MCP["Official Wazuh MCP, private instance"]
         State["Shared TTL state and atomic slots"]
-        Audit["Platform payload-free audit"]
+        Trace["Encrypted product traces"]
+        Audit["Operational and security metadata"]
         subgraph Backends["Trusted Wazuh backends"]
             Manager["Manager: agents and rules"]
             Indexer["Indexer: scoped alert search"]
@@ -75,7 +77,8 @@ flowchart TB
     Orch <-->|"Scoped state and admission"| State
     Orch -->|"Answer or controlled fallback"| Output
     Output -->|"Validated result"| UI
-    Orch -->|"Outcomes, not payloads"| Audit
+    Orch -->|"Admitted input, used content and outcome"| Trace
+    Orch -->|"Event metadata only"| Audit
     Manager --> Native
     Indexer --> Native
     classDef application fill:#eaf2ff,stroke:#315b96,color:#172b4d
@@ -84,8 +87,9 @@ flowchart TB
     classDef inference fill:#f1ecfa,stroke:#71539b,color:#35234f
     class Auth,Orch,Plan,Evidence,Output application
     class MCP,Manager,Indexer,Native backend
-    class UI,Human,State,Audit shared
+    class UI,Human,State,Trace,Audit shared
     class Model inference
+    linkStyle default stroke:#334155,stroke-width:2px,color:#243140
 ```
 
 ## 2. How does it connect to a user's Wazuh deployment, and what data does it need from it? Show it with real responses from the Wazuh API of your lab.
@@ -174,13 +178,13 @@ For the hosted assistant, the service would reuse existing Wazuh sign-in through
 
 Every official MCP instance would authenticate callers and enforce effective-user permissions on each tool read and evidence-reference lookup. Tenant, deployment, index and identity would never be model-controlled tool arguments. Backend access would use least-privilege Manager role-based access control (RBAC) and Indexer document-level security (DLS), or equivalent scoped delegation. A broad service credential plus a prompt filter is insufficient. An MCP-audience token must not be passed blindly downstream; backend credentials would remain separate and never enter model context or tool responses. Choosing an external community client would not waive these server-side controls. [S5]
 
-In the hosted assistant, the backend would partition ephemeral context and evidence references in shared state by tenant, deployment, user and authorization version, with a proposed 15-minute TTL and earlier invalidation on logout or permission change. The state facility would retain any minimized payload only for that bounded context lifetime, with no payload backups. The service would forbid cross-tenant retrieval or memory reuse, with shared prompt/KV caches and production fine-tuning disabled by default. Shared inference would need request isolation and resource cleanup verification.
+In the hosted assistant, the backend would partition working context and evidence references in shared state by tenant, deployment, user and authorization version, with a proposed 15-minute TTL and earlier invalidation on logout or permission change. This short-lived chat state would be separate from the protected product traces below; expiring context would not imply deleting those traces. Retained traces would not restore chat history or expired citation access. The service would forbid cross-tenant retrieval or memory reuse, with shared prompt/KV caches and production fine-tuning disabled by default. Shared inference would need request isolation and resource cleanup verification.
 
 An opaque citation ID would resolve through that server-held evidence registry to a scope-permitted evidence view. The UI would turn only backend-approved references into links, never trust a model-written URL or fetch an arbitrary address. Opening a citation would recheck the current identity and permission; expired or revoked references would expose no evidence. This would use the existing backend and scoped state, not a new link service.
 
 ### Tenant boundaries and access
 
-Editable source: [tenant-data-boundaries.mmd](assets/diagrams/tenant-data-boundaries.mmd). This hosted SaaS isolation view combines API/MCP access checks in one logical box, outside the model. Blue/teal identify tenants, neutral fills shared facilities, and red denied SaaS egress; explicit labels carry scope independently of color. Context partitions remain logical, and community clients are outside this view.
+Editable source: [tenant-data-boundaries.mmd](assets/diagrams/tenant-data-boundaries.mmd). This hosted SaaS isolation view combines API/MCP access checks in one logical box, outside the model. Blue/teal identify tenants, neutral fills shared facilities, and red denied SaaS egress; explicit labels carry scope independently of color. Context and trace partitions remain logical, with trace review governed by the separate grants below; community clients are outside this view.
 
 ```mermaid
 %%{init: {"theme": "base", "themeVariables": {"darkMode": false, "background": "#ffffff", "primaryTextColor": "#243140", "textColor": "#243140", "nodeTextColor": "#243140", "titleColor": "#243140", "lineColor": "#334155", "defaultLinkColor": "#334155", "arrowheadColor": "#334155", "edgeLabelBackground": "#f8fafc"}}}%%
@@ -194,6 +198,7 @@ flowchart LR
         subgraph Shared["Shared SaaS services"]
             Access["Authorization and scoped reads"]
             Model["Private model"]
+            Trace["Encrypted tenant-scoped product traces"]
         end
         subgraph TB["Tenant B"]
             B["B analyst"]
@@ -201,7 +206,7 @@ flowchart LR
             DB["B records, RBAC and DLS"]
         end
     end
-    External["DENIED: SaaS external AI/judges"]
+    External["DENIED: SaaS external AI/judges/telemetry"]
     %% Layout only: order columns, never authorize access or carry data.
     TA ~~~ Shared
     Shared ~~~ TB
@@ -212,15 +217,16 @@ flowchart LR
     Access <-->|"B-scoped context"| MB
     Access <-->|"B-scoped reads"| DB
     Access <-->|"Authorized evidence only"| Model
+    Access -->|"Admitted content, scoped persistence"| Trace
     Shared -.->|"DENIED: SaaS egress"| External
-    linkStyle 2,3,4,5,6,7,8,9 stroke:#334155,stroke-width:2px,color:#243140
+    linkStyle 2,3,4,5,6,7,8,9,10 stroke:#334155,stroke-width:2px,color:#243140
     classDef tenantA fill:#eaf2ff,stroke:#315b96,color:#172b4d
     classDef tenantB fill:#e6f4f1,stroke:#23786b,color:#123d36
     classDef shared fill:#f1f3f5,stroke:#586574,color:#243140
     classDef denied fill:#fdecec,stroke:#ae3434,color:#701d1d
     class A,MA,DA tenantA
     class B,MB,DB tenantB
-    class Access,Model shared
+    class Access,Model,Trace shared
     class External denied
     style Region fill:#fbfcfd,stroke:#9aa5b1,color:#243140
     style Shared fill:#f1f3f5,stroke:#586574,color:#243140
@@ -228,15 +234,32 @@ flowchart LR
     style TB fill:#f0faf7,stroke:#23786b,color:#123d36
 ```
 
-| Protected access | Reader and proposed access boundary |
-|---|---|
-| Backend credentials | Only the MCP server identity would read the regional credential store, never the model or analysts. |
-| Audit events | Designated restricted audit readers would see payload-free operational events, not conversation content. |
-| Maintenance | Approved operators would use audited access to API/MCP, inference and state facilities; support would have no default content access. |
+### Product traces, operational events and retention
+
+For product observability, the hosted assistant would retain content-bearing traces of **authenticated, admitted requests**, so authorized product reviewers could understand what users ask, the evidence used and the result. This would be protected SaaS data processing, not indiscriminate console/APM logging or activation of collection in this lab. The service would disclose this purpose, content scope, access model and proposed retention to users before use.
+
+The CPU backend would capture the original accepted question, conversation input actually used, model-visible messages and non-reasoning outputs, the application response, and authorized tool arguments/results/context actually used. Rejected candidate outputs would be marked as not displayed. Pinned model/prompt/tool versions, scope, coverage/omissions, validation decisions and outcome would make each record interpretable. The existing input/output token, page and aggregate retrieved-byte caps would bound capture too; oversized input that could not fit safely would be rejected before content capture. The trace would not be an archive of arbitrary raw HTTP, authentication or health-check bodies, uninspected records or unbounded native responses.
+
+Authentication headers, bearer tokens, cookies, service/backend credentials and private keys would be excluded from model context and traces. Trace serialization would also exclude internal hidden-reasoning channels. Schema-based selection would exclude known secret fields before persistence or model use; deterministic filtering of secrets pasted into free text would be best effort, without another model call or a promise that user text is nonsensitive. Retained user/tool content would remain confidential, potentially sensitive data. User responsibility for pasted input would not waive the SaaS operator's protection obligations.
+
+| Data class | Proposed retention/deletion | Authorized access |
+|---|---|---|
+| Working chat context and citation registry | 15-minute TTL; earlier invalidation on logout or permission change; no content backups. | Backend-enforced tenant/deployment/user/authorization-version scope; every citation open would reauthorize. |
+| Content-bearing product traces | A separate **proposed 30 days from admission**, subject to purpose/policy approval, not an already approved Wazuh/legal policy. Delete at expiry or approved earlier erasure; updates would not reset expiry. No content-trace backups initially. | Explicit product-data grants for the tenant, permitted content scope and purpose; audited reads/exports. No default developer/operator/support access or cross-tenant browsing. |
+| Operational/security events and metrics | Provisional 30-day security-audit window for this simulation; metadata/backup retention would require policy-owner confirmation. | Designated operational/security readers; no conversation content in these sinks. |
+| Backend credentials and maintenance | Credential lifecycle and privileged-access policy would be confirmed separately. | Only the MCP identity would read backend credentials. Maintenance would not grant trace-content access; any privileged content investigation would need explicit, scoped, audited authorization. |
+
+The trace store would enforce tenant/deployment partitions and record-level access, encrypt data in transit/at rest with restricted regional key access, and log who accessed which trace, when and for what authorized purpose without copying content into the access log. A retained trace would not preserve a revoked chat/citation permission or become model memory. Before a pilot, platform/policy owners would verify deletion and absence of content copies in platform backups. Any later content backups would require approved regional encryption, bounded expiry and deletion markers applied before restored data became accessible, not silently extend retention.
 
 For the hosted SaaS, prompts, evidence, answers, local judges, context and observability would remain within A3's proposed `deployment_region`, with encryption in transit/at rest and restricted key access. Authorized users would receive their own results in the browser. Infrastructure-processor approval would be a deployment requirement; privileged access, misconfiguration and inference leakage remain risks. Local inference and MCP do not certify compliance or establish absolute privacy. These SaaS processing/retention controls do not automatically apply to independent clients or forks.
 
-Audit events would contain operation/auth outcome, counts, latency, versions, error categories and controlled opaque IDs, not questions, raw prompts, tool bodies, answers, access tokens or secrets. Metrics would use minimal cohort labels, not raw identities or payload hashes. Logs, traces, metrics and any metadata backups would stay regional, with external telemetry disabled. I accepted ephemeral history and a provisional 30-day payload-free audit window for the simulation; the 15-minute context/evidence TTL is my implementation proposal, not Wazuh or legal policy. I would verify deletion, metadata retention and privileged-access mappings before a pilot. Persistent history would require a separate purpose, encrypted store and approved minimal retention.
+Operational/security event logs would contain operation/auth outcome, counts, latency, versions, error categories and controlled opaque IDs, not questions, model messages, tool bodies, answers or secrets. Metrics would use minimal cohort labels, not raw identities or payload hashes. Logs, metrics, traces and any approved metadata backups would stay regional, with external telemetry disabled. Private inference would not mean no data retention. The provisional security-audit assumption would not by itself authorize content retention.
+
+### Bounded durable capture
+
+After input validation, authentication, authorization and shared capacity reservation, the CPU backend would durably create the admitted-request trace before model/tool work. It would append used messages, authorized tool evidence and outcomes at bounded stage boundaries, then persist the final validated answer or content-bearing fallback and completion state before releasing that investigation content to the UI. Capacity rejections before admission would have metadata events only; requests admitted into the queue that later timed out or were cancelled could leave an outcome or interrupted trace. Existing regional platform storage and a simple request-record lifecycle would suffice; no broker or new microservice would be needed.
+
+If required initial capture were unavailable, the backend would refuse the investigation before expensive work. If an append/finalization failed, it would stop further work, propagate cancellation and withhold the unpersisted result, returning a fixed unavailable notice without echoing question/tool content even if that notice could not be captured. An interruption could leave only an initial or partial trace; the record would remain incomplete until recovery could mark it interrupted, without inventing missing content or rerunning the investigation. No plaintext fallback, local content spool or unapproved sink would be allowed. Trace persistence would consume the existing stage budgets and absolute deadline, with only bounded storage retries and no extra model call. Failure of an analytics/review view alone would not stop requests if durable capture remained healthy.
 
 ## 4. Where does AI fit in, what can go wrong with it and how do you control it?
 
@@ -287,19 +310,20 @@ These per-investigation model, token, deadline and admission limits apply to the
 | Model calls and tokens | At most 2 calls, each at most 8,192 input and 1,024 output tokens; aggregate at most 16,384 input and 2,048 output tokens. |
 | Retrieval | At most 4 tool invocations, 2 page-fetch attempts per invocation and 50 items per page; 24-hour maximum lookback; 256 KiB aggregate retrieved bytes. |
 | Admission | At most 2 admitted requests per tenant, including queued, active and cancellation-pending work; global capacity follows ready replicas in question 7. |
-| Time | One absolute 30-second deadline from API receipt, including authorization, queue wait, retries and output validation. |
+| Time | One absolute 30-second deadline from API receipt, including authorization, queue wait, trace persistence, retries and output validation. |
 
 The orchestrator would count the serialized system instructions, tool schemas, question, retained history, tool evidence, citation metadata and Harmony framing in each call's input. Reused context would count again in the second call. All generated tokens, including internal reasoning, would consume the output cap without exposing or logging that reasoning. The backend would pack with the pinned model tokenizer, removing oldest history and lower-priority evidence first while preserving security instructions, scope and claim support. Omitted evidence would make coverage explicitly partial; an input that cannot fit safely would require a smaller request, not silent removal of safeguards.
 
 Every tool invocation, including a repeated invocation, would consume the four-tool budget. Every page fetch or refetch on retry would consume that invocation's two-attempt allowance, retrieved bytes and retrieval time. A bounded backend retry would not grant another tool, page, token or time budget. The successful four-tool path below leaves no spare invocation for replanning. Truncation would mean partial coverage, not “all results.”
 
-An illustrative deadline allocation is authorization/admission **2 seconds**, including at most **1 second** of queue wait; planning **5 seconds**; retrieval **8 seconds**; answering **13 seconds**; and output checks **2 seconds**, totaling **30 seconds**. The orchestrator would enforce stage cutoffs against the same absolute deadline, with no extension for retries or a third call. These are proposed controls and pilot targets, not achieved performance.
+An illustrative deadline allocation is authorization/admission **2 seconds**, including at most **1 second** of queue wait and initial durable capture; planning **5 seconds**; retrieval **8 seconds**; answering **13 seconds**; and output checks **2 seconds**, totaling **30 seconds**. Stage appends would consume their stage's budget and final capture the output-check budget. The orchestrator would enforce stage cutoffs against the same absolute deadline, with no extension for retries or a third call. These are proposed controls and pilot targets, not achieved performance.
 
 ### One complete user request
 
 Editable source: [request-sequence.mmd](assets/diagrams/request-sequence.mmd). This successful hosted-assistant path uses the SaaS-private instance of the official open-source MCP and the entire four-tool budget. Dependent steps stop on failure; this is not a model-call limit for community clients.
 
 ```mermaid
+%%{init: {"theme": "base", "themeVariables": {"darkMode": false, "background": "#ffffff", "primaryTextColor": "#243140", "textColor": "#243140", "lineColor": "#334155", "arrowheadColor": "#334155", "actorBkg": "#f1f3f5", "actorBorder": "#586574", "actorTextColor": "#243140", "actorLineColor": "#334155", "signalColor": "#334155", "signalTextColor": "#243140", "noteBkgColor": "#f8fafc", "noteTextColor": "#243140", "noteBorderColor": "#586574"}}}%%
 sequenceDiagram
     actor Analyst
     participant UI as Cloud chat UI
@@ -311,6 +335,7 @@ sequenceDiagram
     Analyst->>UI: Select deployment, ask about LAB-HOST-01 alert
     UI->>O: Question and approved access token
     O->>O: Verify identity and scope, reserve shared capacity
+    O->>O: Persist admitted input trace without token or cookies
     O->>M: Model call 1, structured intent and tool plan
     M-->>O: Untrusted workflow and dependency slots
     O->>O: Validate plan, exact selector and total budgets
@@ -334,10 +359,11 @@ sequenceDiagram
     O->>M: Model call 2, packed authorized evidence
     M-->>O: Untrusted explanation and citation IDs
     O->>O: Recheck scope, validate citations and safe output
+    O->>O: Finalize bounded content trace before answer delivery
     O-->>UI: Validated answer, freshness and coverage
     UI-->>Analyst: Show explanation and evidence links
     Analyst->>UI: Inspect citations and judge the conclusion
-    Note over O,I: One 30-second deadline, payload-free audit, no operational writes
+    Note over O,I: One 30-second deadline includes capture; separate metadata logs; no Wazuh operational writes
 ```
 
 ## 5. How would you know that the AI gives users good answers, and how would you notice when it stops doing so?
@@ -348,7 +374,7 @@ I prepared hypothetical expected facts, citations, allowed tools and outcomes in
 
 My proposed gate would require zero **observed** hard security violations in the finite known suite and all critical deterministic assertions passing. Human reviewers would set quality, latency and cost thresholds after a human-reviewed baseline. The harness would compare pinned model, quantization, backend, prompt, dataset and tool versions and repeat selected cases; human reviewers would make blind comparisons. Fixed seeds and temperature zero help repeatability, not guaranteed determinism.
 
-Scheduled synthetic canaries and controlled regression runs would help detect known semantic regressions; payload-free error/latency metrics would show operational drift. Aggregate health cannot prove accuracy on unseen production questions. The evaluation environment would keep targets, graders and results private, with explicitly configured local graders, sharing/telemetry disabled and network restrictions enforced. The [evaluation plan](assets/evaluation/EVALUATION-PLAN.md) explains this setup and keeps labels outside candidate prompts; offline grading would never become a third runtime call. [S12-S14]
+Scheduled synthetic canaries and controlled regression runs would help detect known semantic regressions; metadata-only error/latency metrics would show operational drift. Separately authorized product reviewers could inspect protected traces to understand questions and failure patterns, but aggregate health or a few inspected traces could not prove accuracy on unseen production questions. Retained traces would not automatically become coding-agent context, training data or golden datasets. Any evaluation reuse would require an approved purpose/permission, minimization and human review, separate from the current 20 synthetic cases and C1-C3 API evidence. The evaluation environment would keep targets, graders and results private, with explicitly configured local graders, sharing/telemetry disabled and network restrictions enforced. The [evaluation plan](assets/evaluation/EVALUATION-PLAN.md) explains this setup and keeps labels outside candidate prompts; offline grading would never become a third runtime call. [S12-S14]
 
 If a baseline comparison or canary detected a regression, the operational team would investigate the failed cases and pinned versions, then temporarily disable the affected AI explanation path or restore the last reviewed model/prompt/tool bundle after compatibility and gate checks, following the [existing regression plan](assets/evaluation/EVALUATION-PLAN.md#regression-drift-and-review-evidence). No unreviewed replacement would be published automatically, and the privacy boundary would remain unchanged. Native Wazuh alerts would remain unaffected while the team reviewed the failure and the harness reran the gates.
 
@@ -394,7 +420,9 @@ For both dependencies unavailable:
 
 **Shared controls:** Authorization/shared-state outages would fail closed before admission, retrieval or output, with affected work cancelled and no local-counter bypass. Permission revocation or MCP scope failure would invalidate affected context/references/cursors, stop dependent reads and withhold stale-scope output. Deadline, page or quota exhaustion would produce explicit partial coverage where useful, otherwise unavailable. A full queue, tenant ceiling or expired admission wait would produce an overload response with retry guidance, without starting model/tool work. Backend retries with backoff and cancellation would remain within the [existing request budgets](#proposed-request-budgets), including the absolute deadline. Cancellation would propagate downstream and suppress late output; the slot would remain occupied until all associated work stopped. If termination were uncertain, the orchestrator would quarantine capacity rather than admit overlapping work.
 
-Native Wazuh alerting would remain architecturally independent of chat: a model outage alone would not stop native alerts. Native APIs, alerts and the dashboard would remain usable only if their underlying components were healthy; API/backend outages could affect those features too. Chat failure would not trigger operational writes or disable native features. Analysts would still inspect authorized source links and judge any result presented.
+The protected-capture requirement would also apply to partial/facts-only responses. A required trace-store failure would produce **"Investigation unavailable: protected request capture is unavailable. Please try again later."**, not a successful unrecorded investigation or a plaintext logging fallback. An analytics-view outage with healthy durable capture would affect internal review, not the investigation itself. Interrupted traces could be incomplete as described in [bounded durable capture](#bounded-durable-capture); the service would not guarantee perfect capture during outages.
+
+Native Wazuh alerting would remain architecturally independent of chat: a model outage alone would not stop native alerts. Native APIs, alerts and the dashboard would remain usable only if their underlying components were healthy; API/backend outages could affect those features too. Chat failure would not trigger Wazuh operational writes or disable native features. Internal persistence of state, admission counters and protected traces would be legitimate service writes, not permission to change Wazuh rules/configuration, run commands or quarantine hosts. Analysts would still inspect authorized source links and judge any result presented.
 
 ## 7. What would it cost to run, and what are its main risks?
 
@@ -418,11 +446,11 @@ For a useful first budget, I would assume the following, in USD. Every rate and 
 |---|---|---|
 | One warm GPU-serving replica | 730 hours x $2/hour | $1,460 |
 | Second-replica bursts | 60 hours x $2/hour | $120 |
-| Other platform costs | CPU, state, storage/network and observability allowance | $300 |
+| Other platform costs | CPU, state, encrypted content-trace storage/deletion, network and operational/access-audit observability allowance | $300 |
 | Operations | 6 hours x $50/hour | $300 |
 | **Total** | **(730 + 60) x $2 + $300 + 6 x $50** | **$2,180** |
 
-At an assumed **10,000 completed investigations per month**, that would be **$0.218 per completion**. Failed requests and idle time still incur costs; fewer completions increase that unit cost. Private model-comparison runs and offline grading would have a separate experiment budget. I would replace these assumptions with quotes for the approved `deployment_region`, hardware compatibility and measured load, memory, p95 latency, tokens/second and completion quality before a pilot. A smaller model might reduce capacity cost but increase abstentions or errors; the larger candidate would need to justify its operating cost.
+At an assumed **10,000 completed investigations per month**, that would be **$0.218 per completion**. Failed requests and idle time still incur costs; fewer completions increase that unit cost. The existing $300 platform allowance would include content storage, encryption, access auditing and retention/deletion work as a budgeting assumption, not a new quote or proof it is sufficient. Trace size, admitted-request volume and retention would need measurement. Private model-comparison runs and offline grading would have a separate experiment budget. I would replace these assumptions with quotes for the approved `deployment_region`, hardware compatibility and measured load, memory, p95 latency, tokens/second and completion quality before a pilot. A smaller model might reduce capacity cost but increase abstentions or errors; the larger candidate would need to justify its operating cost.
 
 The principal risks are incorrect security conclusions, unauthorized disclosure, regional/retention mistakes, noisy-neighbor exhaustion and operating a model service reliably. Minimization, independent permissions, explicit uncertainty and regression gates reduce these risks without eliminating them. Customer demand and platform integration also remain unproven.
 
@@ -432,7 +460,7 @@ The principal risks are incorrect security conclusions, unauthorized disclosure,
 |---|---|
 | Private Wazuh-operated inference for the hosted assistant | A hosted business inference API could reduce GPU operations but change processors, egress, dependency and cost; it is outside this SaaS baseline. |
 | Read-only typed tools and two bounded hosted model calls | Autonomous shell/write tools or an open-ended hosted agent add authority and unpredictable work; community clients retain their own model orchestration. |
-| Ephemeral conversation state and payload-free operations logs | Persistent history helps continuity but creates another sensitive store and retention obligation. |
+| Ephemeral working context plus protected content-bearing product traces, separate from operational logs | Metadata alone would not explain user questions or answers. Retaining content would add confidentiality, scoped-access, deletion and storage obligations; indiscriminate console/APM payload logging and automatic reuse as persistent model memory are outside the design. |
 | Official open-source Wazuh MCP with published contracts and releases, plus hosted chat as one client | A closed internal-only adapter would prevent independent community use; open code still requires authenticated, permission-scoped deployments. |
 
 The hosted assistant would remain private-inference only, with no external model/judge option or silent outage fallback. Independent community clients could select external providers under their own organization's processing, retention and egress policy, outside the SaaS offering and its cost illustration. I would document that responsibility boundary without relaxing official MCP authentication, backend/effective-user permissions or credential protection. Provider privacy commitments do not replace those checks or policy review. [S15]
@@ -446,8 +474,8 @@ I would use the [before-pilot checklist](OPEN-QUESTIONS.md) to confirm the actua
 | A1 | An official Wazuh-maintained open-source MCP project, published tool contracts/docs/versioned releases, and hosted chat using a private instance. | Server/client compatibility, supported authorized Wazuh routes and hosted provider-internal integration; no public SaaS endpoint is implied. |
 | A2 | Reuse existing identity and effective human permissions, an accepted simulation principle. | Token issuer/audience, delegation, revocation and Manager RBAC/Indexer DLS mapping. |
 | A3 | AWS is the hosted SaaS simulation assumption; `deployment_region` is a required, still-unselected deployment parameter. | Processor/residency approval for hosted inference, state, judges and observability. `eu-central-1` and `eu-west-2` are alternatives, not approved locations; the UK is not EU residency. |
-| A4 | Accepted hosted ephemeral context and provisional 30-day payload-free audit; proposed 15-minute context/evidence TTL and no payload backups. | SaaS deletion, metadata retention, key/access policies and legal review, without extending guarantees to independent clients or claiming compliance approval. |
-| A5 | Two-call hosted budgets and bounded one-to-two-replica SaaS capacity are initial controls. | Hosted quality, cancellation, load, queue fairness and deadline behavior; common MCP per-tool protections remain required for every instance. |
+| A4 | Ephemeral working context with proposed 15-minute TTL; separate protected product traces with newly proposed 30-day retention; no context/content-trace backups initially. The provisional 30-day security audit is a distinct simulation assumption, not content-retention approval. | Disclosed purpose, content permission, scoped/audited product and privileged access, regional encryption, deletion/backup alignment and policy/legal approval before collection; no independent-client guarantees or compliance claim. |
+| A5 | Two-call hosted budgets, bounded one-to-two-replica SaaS capacity and durable trace capture before expensive work are initial controls. | Hosted quality, cancellation, load, queue fairness, capture/analytics outages and deadline behavior; common MCP per-tool protections remain required for every instance. |
 | A6 | Compare the hosted assistant's two open-weight candidates privately with promptfoo. | Serving/Harmony compatibility, hardware and human-reviewed golden-case results, separate from community model/provider choices. |
 
 ---
