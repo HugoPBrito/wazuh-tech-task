@@ -1,0 +1,41 @@
+flowchart TB
+    Idea["Idea or feedback"]
+    Backlog["Human-prioritized backlog: approved ticket and acceptance criteria"]
+    Brief["Task brief: context, scope, permissions, tests and stop budget"]
+    Clear{"Requirements and authority clear?"}
+    Stop["Stop for human clarification or decision"]
+    Writer["One writer: scoped code, tests and docs"]
+    Checks["Run tests throughout and self-review"]
+    Fresh["Fresh read-only review of exact local candidate and evidence"]
+    Ready{"Acceptance met and findings resolved?"}
+    Budget{"Correction within approved scope and budget?"}
+    Author["My review of candidate, tests and limitations"]
+    Permission{"Explicit permission for this commit, push and PR scope?"}
+    Local["Keep local, report status and await permission"]
+    Publish["Authorized agent: commit, push and open or update PR"]
+    Required["Current required CI and security checks, if configured"]
+    Humans["My review and another human review of final candidate"]
+    Merge["Humans only: approve, merge and authorize release"]
+    Deploy["Approved pipeline deploys, verifies rollout and supports rollback"]
+    Idea --> Backlog
+    Backlog --> Brief
+    Brief --> Clear
+    Clear -->|"No"| Stop
+    Clear -->|"Yes"| Writer
+    Writer --> Checks
+    Checks --> Fresh
+    Fresh --> Ready
+    Ready -->|"No"| Budget
+    Budget -->|"Yes"| Writer
+    Budget -->|"No"| Stop
+    Ready -->|"Yes"| Author
+    Author -->|"Changes needed"| Budget
+    Author -->|"Acceptable"| Permission
+    Permission -->|"No"| Local
+    Permission -->|"Yes"| Publish
+    Publish --> Required
+    Required -->|"Failures"| Budget
+    Required -->|"Passing or approved policy exception"| Humans
+    Humans -->|"Changes needed"| Budget
+    Humans -->|"Approved"| Merge
+    Merge --> Deploy

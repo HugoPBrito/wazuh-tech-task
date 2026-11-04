@@ -1,0 +1,21 @@
+flowchart TB
+    Human["Human request<br/>Requirements and scope"]
+    Session["OpenCode session<br/>Agents, tools and permissions"]
+    Orch["Gentle AI orchestrator"]
+    Workers["Bounded agents<br/>One writer, independent readers"]
+    Review["Human review: same person<br/>Owns publication"]
+    Human --> Session
+    Session --> Orch
+    Orch --> Workers
+    Workers -->|"Candidate and evidence"| Review
+
+    Models["OpenAI models<br/>My subscription, remote inference"]
+    Instructions["Approved task<br/>Project instructions and skills"]
+    Memory["Engram<br/>Selected memory, no secrets"]
+    Docs["Context7<br/>Official documentation"]
+    Code["CodeGraph<br/>Optional code context"]
+    Session -.->|"Selects models"| Models
+    Session -.->|"Uses context"| Instructions
+    Orch -.->|"Reads / saves"| Memory
+    Orch -.->|"Queries"| Docs
+    Orch -.->|"When enabled"| Code
