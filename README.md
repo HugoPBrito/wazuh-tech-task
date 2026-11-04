@@ -12,5 +12,5 @@ Each phase groups its document and supporting assets in its own directory.
 
 - [Phase 1](phase1/PHASE1.md)
 - [Phase 2](phase2/PHASE2.md)
-- Phase 3: Planned
+- [Phase 3](phase3/PHASE3.md)
 - Phase 4: Planned
