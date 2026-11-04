@@ -1,0 +1,16 @@
+%%{init: {"theme": "base", "themeVariables": {"darkMode": false, "background": "#ffffff", "primaryTextColor": "#243140", "textColor": "#243140", "lineColor": "#334155", "defaultLinkColor": "#334155", "arrowheadColor": "#334155", "edgeLabelBackground": "#f8fafc"}}}%%
+flowchart LR
+    User["Hosted user"]
+    Backend["Backend: verify scope and calls"]
+    MCP["Official open-source MCP: private instance"]
+    Manager["Manager: agents and rules"]
+    Indexer["Indexer: alerts and event evidence"]
+    Evidence["Authorized evidence for the private answer"]
+    User -->|"Selected deployment and question"| Backend
+    Backend <-->|"Typed calls and scoped results"| MCP
+    MCP <-->|"Manager credential"| Manager
+    MCP <-->|"Indexer credential"| Indexer
+    Backend -->|"Validate and minimize results"| Evidence
+    classDef neutral fill:#f1f3f5,stroke:#586574,color:#243140
+    class User,Backend,MCP,Manager,Indexer,Evidence neutral
+    linkStyle default stroke:#334155,stroke-width:2px,color:#243140
