@@ -1,0 +1,45 @@
+%%{init: {"theme": "base", "themeVariables": {"darkMode": false, "background": "#ffffff", "primaryTextColor": "#243140", "textColor": "#243140", "nodeTextColor": "#243140", "titleColor": "#243140", "lineColor": "#334155", "defaultLinkColor": "#334155", "arrowheadColor": "#334155", "edgeLabelBackground": "#f8fafc"}}}%%
+flowchart LR
+    subgraph Region["Proposed SaaS approved-region boundary"]
+        subgraph TA["Tenant A"]
+            A["A analyst"]
+            MA["A context and evidence IDs"]
+            DA["A records, RBAC and DLS"]
+        end
+        subgraph Shared["Shared SaaS services"]
+            Access["Authorization and scoped reads"]
+            Model["Private model"]
+            Trace["Encrypted tenant-scoped product traces"]
+        end
+        subgraph TB["Tenant B"]
+            B["B analyst"]
+            MB["B context and evidence IDs"]
+            DB["B records, RBAC and DLS"]
+        end
+    end
+    External["DENIED: SaaS external AI/judges/telemetry"]
+    %% Layout only: order columns, never authorize access or carry data.
+    TA ~~~ Shared
+    Shared ~~~ TB
+    A <-->|"A request and result"| Access
+    MA <-->|"A-scoped context"| Access
+    DA <-->|"A-scoped reads"| Access
+    Access <-->|"B request and result"| B
+    Access <-->|"B-scoped context"| MB
+    Access <-->|"B-scoped reads"| DB
+    Access <-->|"Authorized evidence only"| Model
+    Access -->|"Admitted content, scoped persistence"| Trace
+    Shared -.->|"DENIED: SaaS egress"| External
+    linkStyle 2,3,4,5,6,7,8,9,10 stroke:#334155,stroke-width:2px,color:#243140
+    classDef tenantA fill:#eaf2ff,stroke:#315b96,color:#172b4d
+    classDef tenantB fill:#e6f4f1,stroke:#23786b,color:#123d36
+    classDef shared fill:#f1f3f5,stroke:#586574,color:#243140
+    classDef denied fill:#fdecec,stroke:#ae3434,color:#701d1d
+    class A,MA,DA tenantA
+    class B,MB,DB tenantB
+    class Access,Model,Trace shared
+    class External denied
+    style Region fill:#fbfcfd,stroke:#9aa5b1,color:#243140
+    style Shared fill:#f1f3f5,stroke:#586574,color:#243140
+    style TA fill:#f5f8ff,stroke:#315b96,color:#172b4d
+    style TB fill:#f0faf7,stroke:#23786b,color:#123d36

@@ -24,7 +24,7 @@ Entendiendo el comportamiento de los componentes por separado, somos también ca
 
 
 
-![](assets/p1-event-flow.png)
+![](assets/img/p1-event-flow.png)
 
 No se especifica en las preguntas, pero creo que cabe mencionar adicionalmente que Wazuh ofrece Wazuh Cloud, que es la versión SaaS (*Software as a Service*) alternativa a la plataforma *open-source*. Proporciona las mismas capacidades, sin necesidad de instalar y mantener los tres componentes centrales (ya que el Wazuh agent debe seguir instalándose en los endpoints para la obtención de datos) y garantiza el cumplimiento normativo con SOC 2 y PCI DSS, entre otras ventajas.
 
@@ -38,57 +38,57 @@ Decidí no complicar mucho la prueba, buscando no simular un ataque ni algún ti
 
 El setup sería el siguiente: dos máquinas virtuales dentro de mi Mac. De esta forma, usaría un Ubuntu Desktop para instalar el agente como si fuera el dispositivo de algún empleado, y un Ubuntu Server donde tendría instalado el core de Wazuh: el server, el indexer y el dashboard.
 
-![](assets/p1-lab-layout.png)
+![](assets/img/p1-lab-layout.png)
 
 #### Indexer, Server y Dashboard (Ubuntu Server)
 
 Lo primero que hice fue instalar los componentes core en la máquina Ubuntu Server. Fue principalmente seguir los comandos de la instalación asistida de la documentación.
 
-![](assets/p1-first-core-ip.png)
+![](assets/img/p1-first-core-ip.png)
 
 Preparando config file:
 
-![](assets/p1-first-core-config.png)
+![](assets/img/p1-first-core-config.png)
 
 Configuración inicial:
 
-![](assets/p1-first-core-certificates.png)
+![](assets/img/p1-first-core-certificates.png)
 
 Instalación del indexador:
 
-![](assets/p1-first-indexer-install.png)
+![](assets/img/p1-first-indexer-install.png)
 
 Inicialización del clúster:
 
-![](assets/p1-first-indexer-cluster-start.png)
+![](assets/img/p1-first-indexer-cluster-start.png)
 
 Probando la instalación del indexer:
 
-![](assets/p1-first-indexer-password.png)
+![](assets/img/p1-first-indexer-password.png)
 
 En este punto, decidí utilizar Warp en mi Mac personal para conectarme por SSH al Ubuntu Server, para poder copiar y pegar fácilmente la contraseña y los comandos. Por eso la apariencia de la terminal es diferente.
 
-![](assets/p1-first-indexer-check.png)
+![](assets/img/p1-first-indexer-check.png)
 
-![](assets/p1-first-indexer-nodes.png)
+![](assets/img/p1-first-indexer-nodes.png)
 
 También seguí la recomendación de desactivar las actualizaciones:
 
-![](assets/p1-first-core-disable-updates.png)
+![](assets/img/p1-first-core-disable-updates.png)
 
 Instalación del servidor:
 
-![](assets/p1-first-server-install.png)
+![](assets/img/p1-first-server-install.png)
 
 Instalación del dashboard:
 
-![](assets/p1-first-dashboard-install.png)
+![](assets/img/p1-first-dashboard-install.png)
 
 Accedemos al portal:
 
-![](assets/p1-first-dashboard-login.png)
+![](assets/img/p1-first-dashboard-login.png)
 
-![](assets/p1-first-dashboard-api-error.png)
+![](assets/img/p1-first-dashboard-api-error.png)
 
 Yupi :))
 
@@ -98,35 +98,35 @@ Se puede apreciar un error en el dashboard. Este se explica la pregunta 3 "*What
 
 El siguiente paso fue proceder con la instalación del agente en Ubuntu Desktop, instalando la GPG key, añadiendo el repositorio y actualizando la información de los paquetes:
 
-![](assets/p1-first-agent-repository.png)
+![](assets/img/p1-first-agent-repository.png)
 
-![](assets/p1-first-agent-package-error.png)
+![](assets/img/p1-first-agent-package-error.png)
 
 Como me equivoqué de IP, repetí el proceso, pero el cambio no surtió efecto, así que tuve que cambiarlo manualmente:
 
-![](assets/p1-first-agent-manager-retry.png)
+![](assets/img/p1-first-agent-manager-retry.png)
 
-![](assets/p1-first-agent-edit-config.png)
+![](assets/img/p1-first-agent-edit-config.png)
 
-![](assets/p1-first-agent-manager-config.png)
+![](assets/img/p1-first-agent-manager-config.png)
 
-![](assets/p1-first-agent-restart.png)
+![](assets/img/p1-first-agent-restart.png)
 
 Activamos y lanzamos el servicio del agente:
 
-![](assets/p1-first-agent-service-start.png)
+![](assets/img/p1-first-agent-service-start.png)
 
 También seguimos la recomendación de desactivar las actualizaciones:
 
-![](assets/p1-first-agent-disable-updates.png)
+![](assets/img/p1-first-agent-disable-updates.png)
 
-![](assets/p1-first-dashboard-overview.png)
+![](assets/img/p1-first-dashboard-overview.png)
 
 ### 2.2 Segunda instalación
 
 Como especificaré más adelante en la pregunta 3, esta primera instalación fue arreglada con IA debido a varios problemas causados por un reinicio de la máquina virtual y una instalación corrupta. Como en esta fase se especificaba que el uso de IA no estaba permitido, decidí realizar una segunda instalación desde cero. De esta forma os proveo de las dos opciones, tanto la solución personal que encontré ante los problemas de la primera instalación (junto a los aprendizajes que me llevé de ello) así como una instalación completa desde cero, sin IA, como se especificaba en la prueba.
 
-![](assets/p1-second-core-ssh.png)
+![](assets/img/p1-second-core-ssh.png)
 
 En esta segunda instalación voy a ser bastante más conciso ya que los pasos son los mismos que en la primera
 
@@ -134,35 +134,35 @@ En esta segunda instalación voy a ser bastante más conciso ya que los pasos so
 
 El primer paso fue conectarme por SSH al Ubuntu nuevo, que, como se puede apreciar, tiene una IP diferente, y seguir el proceso de instalación.
 
-![](assets/p1-second-core-download.png)
+![](assets/img/p1-second-core-download.png)
 
 Edición del config file:
 
-![](assets/p1-second-core-config.png)
+![](assets/img/p1-second-core-config.png)
 
  Instalación y prueba del indexer:
 
-![](assets/p1-second-indexer-install-check.png)
+![](assets/img/p1-second-indexer-install-check.png)
 
 Instalación del server y desactivación de actualizaciones:
 
-![](assets/p1-second-server-install.png)
+![](assets/img/p1-second-server-install.png)
 
 Instalación del dashboard y desactivación de actualizaciones. Como se puede apreciar el primer intento falló pero el segundo fue exitoso:
 
-![](assets/p1-second-dashboard-install-retry.png)
+![](assets/img/p1-second-dashboard-install-retry.png)
 
-![](assets/p1-second-dashboard-login.png)
+![](assets/img/p1-second-dashboard-login.png)
 
-![](assets/p1-second-dashboard-no-agents.png)
+![](assets/img/p1-second-dashboard-no-agents.png)
 
 #### Agent (Ubuntu Desktop)
 
 Ahora solo faltaría la instalación del agente, desactivar las actualizaciones y recargar el dashboard:
 
-![](assets/p1-second-agent-install.png)
+![](assets/img/p1-second-agent-install.png)
 
-![](assets/p1-second-dashboard-agent-active.png)
+![](assets/img/p1-second-dashboard-agent-active.png)
 
 ### 2.3.1 Simulación FIM (*File Integrity Monitoring*) sobre primera la instalación
 
@@ -170,67 +170,67 @@ Una vez completado el proceso de instalación y configuración inicial, el sigui
 
 Para ello, investigué esta funcionalidad en la documentación y en el dashboard, donde se especifica la lista de directorios donde este análisis está activado por defecto.
 
-![](assets/p1-first-fim-defaults-docs.png)
+![](assets/img/p1-first-fim-defaults-docs.png)
 
-![](assets/p1-first-fim-monitored-directories.png)
+![](assets/img/p1-first-fim-monitored-directories.png)
 
 Viendo el inventario de archivos monitorizados, escogí el siguiente:
 
-![](assets/p1-first-fim-file-inventory.png)
+![](assets/img/p1-first-fim-file-inventory.png)
 
-![](assets/p1-first-fim-delete-file.png)
+![](assets/img/p1-first-fim-delete-file.png)
 
-![](assets/p1-first-fim-navigation.png)
+![](assets/img/p1-first-fim-navigation.png)
 
 No me salía nada, e investigando un poco más me di cuenta de que los scans se realizan por defecto cada 12h (43200s):
 
-![](assets/p1-first-fim-scan-interval-docs.png)
+![](assets/img/p1-first-fim-scan-interval-docs.png)
 
 Revisando la documentación de *real-time*, realicé la configuración para detectar los cambios en tiempo real en una carpeta personalizada "FIM-Test" bajo el directorio de documentos:
 
-![](assets/p1-first-fim-test-directory.png)
+![](assets/img/p1-first-fim-test-directory.png)
 
 Añadiría dicha carpeta a la configuración y activaría el *real-time* en ella, creando un archivo dentro y esperando que crease un evento:
 
-![](assets/p1-first-fim-realtime-config.png)
+![](assets/img/p1-first-fim-realtime-config.png)
 
 Reinicio el Wazuh agent:
 
-![](assets/p1-first-fim-agent-restart.png)
+![](assets/img/p1-first-fim-agent-restart.png)
 
 Compruebo que está activo y creo el fichero:
 
-![](assets/p1-first-fim-create-file.png)
+![](assets/img/p1-first-fim-create-file.png)
 
-![](assets/p1-first-fim-dashboard.png)
+![](assets/img/p1-first-fim-dashboard.png)
 
-![](assets/p1-first-fim-file-added.png)
+![](assets/img/p1-first-fim-file-added.png)
 
 Yupi :))
 
 Además del primer objetivo fijado, que era este, me manejé por otras vistas de la aplicación intentando visualizar el resto de funcionalidades ofrece Wazuh.
 
-![](assets/p1-first-malware-dashboard.png)
+![](assets/img/p1-first-malware-dashboard.png)
 
-![](assets/p1-first-rootcheck-event.png)
+![](assets/img/p1-first-rootcheck-event.png)
 
-![](assets/p1-first-hipaa-dashboard.png)
+![](assets/img/p1-first-hipaa-dashboard.png)
 
 ### 2.3.2 Simulación FIM (*File Integrity Monitoring*) sobre la segunda instalación
 
 Ya aprendido de la primera vez, fui directamente a crear el directorio y activar la detección real-time:
 
-![](assets/p1-second-fim-test-directory.png)
+![](assets/img/p1-second-fim-test-directory.png)
 
-![](assets/p1-second-fim-realtime-config.png)
+![](assets/img/p1-second-fim-realtime-config.png)
 
 Creo el archivo y veo el evento:
 
-![](assets/p1-second-fim-create-file.png)
+![](assets/img/p1-second-fim-create-file.png)
 
-![](assets/p1-second-fim-dashboard.png)
+![](assets/img/p1-second-fim-dashboard.png)
 
-![](assets/p1-second-fim-agent-event.png)
+![](assets/img/p1-second-fim-agent-event.png)
 
 ### ¿Qué aprendí?
 
@@ -248,7 +248,7 @@ Los principales aprendizajes obtenidos del laboratorio son, en esencia, los prac
 
 Los principales errores que me encontré provinieron de un fallo muy trivial: no leí bien y no me di cuenta de que, durante el primer instento de instalación de Wazuh server, **Wazuh manager había fallado**. Al haber mensajes de éxito también, solo me fijé en el final y pensaba que se había instalado correctamente, pero no fue así. Después de instalar el dashboard me daba un error respecto a la API.
 
-![](assets/p1-first-dashboard-api-error.png)
+![](assets/img/p1-first-dashboard-api-error.png)
 
 Tras instalar el agente y persistiendo el error, intenté solucionarlo, lo que produjo una larga sucesión de ellos, muchos de los mismos procedentes de la misma mala decisión:  el reinicio de la máquina virtual.
 
@@ -286,7 +286,7 @@ No obstante esto no ha sido difícil, pero quería dejar constancia también de 
 
 De tener más tiempo para probar todo con mayor detalle, me gustaría empezar por la configuración remota de los agentes. Si bien he llegado hasta el `agent.conf` desde el dashboard, me gustaría probarlo, enviando configuraciones a los agentes en remoto y ver cómo surten efecto.
 
-![](assets/p1-agent-group-config.png)
+![](assets/img/p1-agent-group-config.png)
 
 Otra de las funcionalidades que me gustaría probar es la ejecución de un malware ficticio que actuase como uno real (o incluso uno real en un entorno bien preparado para ello), levantando las alertas para detectar su ejecución o presencia en el sistema.
 
