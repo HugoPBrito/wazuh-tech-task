@@ -492,8 +492,8 @@ I used retained interface research and checked the official promptfoo guidance f
 - **S7:** [gpt-oss repository](https://github.com/openai/gpt-oss) and [license](https://raw.githubusercontent.com/openai/gpt-oss/main/LICENSE).
 - **S8:** [Archived vLLM cookbook recipe](https://cookbook.openai.com/articles/gpt-oss/run-vllm).
 - **S9:** [Harmony format](https://cookbook.openai.com/articles/openai-harmony).
-- **S10:** [gpt-oss reference implementation](https://github.com/openai/gpt-oss): its reference API implementation is incomplete; the retained inspection is not an executed compatibility result.
-- **S11:** [promptfoo assertions and comparisons](https://www.promptfoo.dev/docs/configuration/expected-outputs/). My prior use at Prowler is personal experience, not inferred from this source.
+- **S10:** [gpt-oss reference implementation](https://github.com/openai/gpt-oss).
+- **S11:** [promptfoo assertions and comparisons](https://www.promptfoo.dev/docs/configuration/expected-outputs/).
 - **S12:** [Pinned Promptfoo offline FAQ](https://github.com/promptfoo/promptfoo/blob/f2b012e3c9f9ffb7b23edf4cf88ea63febf72f5a/site/docs/faq.md).
 - **S13:** [Pinned CLI controls](https://github.com/promptfoo/promptfoo/blob/f2b012e3c9f9ffb7b23edf4cf88ea63febf72f5a/site/docs/usage/command-line.md).
 - **S14:** [Pinned local-provider documentation](https://github.com/promptfoo/promptfoo/blob/f2b012e3c9f9ffb7b23edf4cf88ea63febf72f5a/site/docs/providers/ollama.md).
