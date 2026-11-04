@@ -1,6 +1,6 @@
 # Real Owned-Lab API Evidence: C1-C3 Collected
 
-I have integrated three genuine lab dashboard API responses for [Phase 3 question 2](../../PHASE3.md). I ran these requests in my lab and provided the JSON and screenshots to the AI for documentation. I preserved the supplied values and native types, formatting the JSON for readability. These are real API responses, distinct from the proposed service and the separate synthetic evaluation cases.
+I have integrated three genuine lab dashboard API responses for [Phase 3 question 2](../../PHASE3.md). I ran these requests in my lab and provided the JSON and screenshots to the AI for documentation. I preserved the supplied values and native types, formatting the JSON for readability. These are real API responses, distinct from the proposed service and the separate [synthetic evaluation cases](../evaluation/cases.json).
 
 ## Collected evidence
 

@@ -2,7 +2,7 @@
 
 I would build an official Wazuh-maintained open-source Model Context Protocol (MCP) server and a private Wazuh Cloud investigation assistant that uses it. Community developers could also use the server independently with their own compatible AI clients. This proposal develops the direction I chose in [Phase 2](../phase2/PHASE2.md). I exercised three lab API reads, correlating agent `002`, an alert and rule `554`; those observations ground the integration example, not the proposed products or model quality.
 
-The supporting material is the [lab evidence](assets/evidence/EVIDENCE.md), private evaluation plan, synthetic cases and [before-pilot checks](OPEN-QUESTIONS.md). The compact [assumptions section](#proposal-assumptions-and-before-pilot-checks) distinguishes my design choices from platform contracts to validate.
+The supporting material is the [lab evidence](assets/evidence/EVIDENCE.md), [private evaluation plan](assets/evaluation/EVALUATION-PLAN.md), [synthetic cases](assets/evaluation/cases.json) and [before-pilot checks](OPEN-QUESTIONS.md). The compact [assumptions section](#proposal-assumptions-and-before-pilot-checks) distinguishes my design choices from platform contracts to validate.
 
 ## 1. What does the service do, and for whom?
 
@@ -38,7 +38,7 @@ I would not add a broker, vector database or a service for every logical check. 
 
 ### Proposed components and data flow
 
-Editable source: [components.mmd](assets/diagrams/components.mmd). This proposed hosted SaaS runtime uses a private instance of the official open-source MCP; community clients are described above, outside its private-model boundary. Boxes inside the CPU application are logical modules. Offline evaluation is described in the evaluation plan.
+Editable source: [components.mmd](assets/diagrams/components.mmd). This proposed hosted SaaS runtime uses a private instance of the official open-source MCP; community clients are described above, outside its private-model boundary. Boxes inside the CPU application are logical modules. Offline evaluation is described in the [evaluation plan](assets/evaluation/EVALUATION-PLAN.md#private-test-topology).
 
 ```mermaid
 flowchart TB
@@ -268,11 +268,11 @@ sequenceDiagram
 
 I would use **promptfoo, which I used at Prowler**, to compare the complete hosted-assistant contract, not only an isolated model prompt. Its provider comparisons, deterministic assertions and configurable local grading would support a repeatable private evaluation. I would also test the official MCP's authentication, effective-user permissions, schemas, bounded reads and credential exclusion independently of any LLM. That choice comes from my prior experience; the official documentation supports the proposed capabilities. [S11-S14]
 
-I prepared hypothetical expected facts, citations, allowed tools and outcomes in cases.json. I would start with these inspectable synthetic cases, then add approved lab cases and private holdouts. The suite would cover injection, tenant and permission changes, false refusals, partial results, call-1 failure, overload/cancellation and token packing. Deterministic checks would enforce scope and budgets; human review or a human-calibrated offline local judge would assess semantic support, not just citation presence.
+I prepared hypothetical expected facts, citations, allowed tools and outcomes in [cases.json](assets/evaluation/cases.json). I would start with these inspectable synthetic cases, then add approved lab cases and private holdouts. The suite would cover injection, tenant and permission changes, false refusals, partial results, call-1 failure, overload/cancellation and token packing. Deterministic checks would enforce scope and budgets; human review or a human-calibrated offline local judge would assess semantic support, not just citation presence.
 
 My proposed gate would require zero **observed** hard security violations in the finite known suite and all critical deterministic assertions passing. I would set quality, latency and cost thresholds after a human-reviewed baseline. I would compare pinned model, quantization, backend, prompt, dataset and tool versions, repeat selected cases and use blind human comparisons. Fixed seeds and temperature zero help repeatability, not guaranteed determinism.
 
-Scheduled synthetic canaries and controlled regression runs would help detect known semantic regressions; payload-free error/latency metrics would show operational drift. Aggregate health cannot prove accuracy on unseen production questions. I would keep targets, graders and results private, explicitly configure local graders, disable sharing/telemetry and enforce network restrictions. The evaluation plan explains this setup and keeps labels outside candidate prompts; offline grading would never become a third runtime call. [S12-S14]
+Scheduled synthetic canaries and controlled regression runs would help detect known semantic regressions; payload-free error/latency metrics would show operational drift. Aggregate health cannot prove accuracy on unseen production questions. I would keep targets, graders and results private, explicitly configure local graders, disable sharing/telemetry and enforce network restrictions. The [evaluation plan](assets/evaluation/EVALUATION-PLAN.md) explains this setup and keeps labels outside candidate prompts; offline grading would never become a third runtime call. [S12-S14]
 
 ## 6. What happens when the Wazuh API or the model is down?
 
