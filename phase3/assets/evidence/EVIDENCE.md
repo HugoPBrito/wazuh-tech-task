@@ -1,6 +1,6 @@
 # Real Owned-Lab API Evidence: C1-C3 Collected
 
-I have integrated three genuine lab dashboard API responses for Phase 3 question 2. I ran these requests in my lab and provided the JSON and screenshots to the AI for documentation. I preserved the supplied values and native types, formatting the JSON for readability. These are real API responses, distinct from the proposed service and the separate synthetic evaluation cases.
+I have integrated three genuine lab dashboard API responses for [Phase 3 question 2](../../PHASE3.md). I ran these requests in my lab and provided the JSON and screenshots to the AI for documentation. I preserved the supplied values and native types, formatting the JSON for readability. These are real API responses, distinct from the proposed service and the separate synthetic evaluation cases.
 
 ## Collected evidence
 
@@ -226,7 +226,7 @@ I document requests I ran in my lab; AI organized the supplied artifacts without
 
 I inspected all five local images and found no visible credentials or authentication headers. I supplied no credentials with the JSON. I retained the supplied lab name, agent/rule IDs, document IDs and event timestamps without claiming anonymization or redaction. I renamed the PNGs without resampling, cropping or encoding, preserving their SHA256 identities. Publication is not authorized by this integration; I would review these lab identifiers and provenance again before publication.
 
-The reads do not validate the effective principal, restricted Manager RBAC/Indexer DLS, cross-tenant isolation, provider-internal Cloud route, MCP, private inference, the proposed four-tool workflow, model quality or latency budgets. I would validate those integration and operating contracts through the before-pilot checklist, not infer them from successful lab responses.
+The reads do not validate the effective principal, restricted Manager RBAC/Indexer DLS, cross-tenant isolation, provider-internal Cloud route, MCP, private inference, the proposed four-tool workflow, model quality or latency budgets. I would validate those integration and operating contracts through the [before-pilot checklist](../../OPEN-QUESTIONS.md), not infer them from successful lab responses.
 
 For optional C4 preparation, I could later repeat bounded reads with an intended restricted principal, inspect a second page or a known-empty filter, and test controlled incomplete/failure cases. This would not be a mandatory fourth PDF capture: the original assignment (p. 3) asks for real API responses, not four captures or failure experiments. I would not manufacture failures or disrupt the deployment.
 

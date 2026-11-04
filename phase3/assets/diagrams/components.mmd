@@ -1,0 +1,45 @@
+flowchart TB
+    Human["Analyst: ask and review"]
+    UI["Cloud chat UI"]
+    subgraph Region["Proposed hosted SaaS runtime"]
+        subgraph CPU["One CPU API application, logical modules"]
+            Auth["Identity, scope and admission"]
+            Orch["Bounded orchestrator"]
+            Plan["Plan and argument validation"]
+            Evidence["Evidence checks and packing"]
+            Output["Citation and output validation"]
+        end
+        Model["Private GPU serving"]
+        MCP["Official Wazuh MCP, private instance"]
+        State["Shared TTL state and atomic slots"]
+        Audit["Platform payload-free audit"]
+        subgraph Backends["Trusted Wazuh backends"]
+            Manager["Manager: agents and rules"]
+            Indexer["Indexer: scoped alert search"]
+            Native["Native alerts and dashboard"]
+        end
+    end
+    Human <-->|"Question and cited result"| UI
+    UI --> Auth
+    Auth -->|"Trusted principal"| Orch
+    Orch <-->|"Call 1: plan, call 2: answer"| Model
+    Orch -->|"Untrusted plan"| Plan
+    Plan -->|"Approved workflow"| MCP
+    MCP <-->|"Scoped credential"| Manager
+    MCP <-->|"Human scope and DLS"| Indexer
+    MCP -->|"Native bodies and completeness"| Evidence
+    Evidence --> Orch
+    Orch <-->|"Scoped state and admission"| State
+    Orch -->|"Answer or controlled fallback"| Output
+    Output -->|"Validated result"| UI
+    Orch -->|"Outcomes, not payloads"| Audit
+    Manager --> Native
+    Indexer --> Native
+    classDef application fill:#eaf2ff,stroke:#315b96,color:#172b4d
+    classDef backend fill:#e6f4f1,stroke:#23786b,color:#123d36
+    classDef shared fill:#f1f3f5,stroke:#586574,color:#243140
+    classDef inference fill:#f1ecfa,stroke:#71539b,color:#35234f
+    class Auth,Orch,Plan,Evidence,Output application
+    class MCP,Manager,Indexer,Native backend
+    class UI,Human,State,Audit shared
+    class Model inference
