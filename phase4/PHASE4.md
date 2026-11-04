@@ -99,7 +99,7 @@ The diagram below is the **proposed future delivery flow**, not installed CI. Id
 Editable source: [agent-delivery-workflow.mmd](assets/diagrams/agent-delivery-workflow.mmd).
 
 ```mermaid
-flowchart LR
+flowchart TB
     Idea["Idea or feedback"]
     Backlog["Human-prioritized backlog: approved ticket and acceptance criteria"]
     Brief["Task brief: context, scope, permissions, tests and stop budget"]
