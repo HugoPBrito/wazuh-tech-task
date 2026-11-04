@@ -7,7 +7,7 @@ At this stage, I wanted to compare user needs, not solution designs. I wanted ei
 
 ## A. Organizing and following up security alerts
 
-Security analysts need known alerts and findings to be prioritized, assigned, investigated, and followed through to closure without constant manual coordination. The desired support is ticket management and AI-assisted evaluation alongside Wazuh AI Analyst—not a confirmed native integration. Success means knowing what matters, who owns it, and what still needs attention.
+Security analysts need known alerts and findings to be prioritized, assigned, investigated, and followed through to closure without constant manual coordination. The desired support is ticket management and AI-assisted evaluation alongside Wazuh AI Analyst (not a confirmed native integration). Success means knowing what matters, who owns it, and what still needs attention.
 
 **Example:** An alert is noticed, but nobody clearly owns it; the next shift repeats the investigation or leaves it unfinished.
 
@@ -44,8 +44,8 @@ Security analysts need to recognize an attack already in progress when individua
 ## What the choice means
 
 A is about **handling already identified work better**; B is about **recognizing a pattern that is not obvious from one event**.
-If the main pain is lost ownership and manual follow-up, A fits—but only if existing plugins and automation do not already solve it.
-If it is a missed developing attack despite available signals, B fits—but it must improve recognition without adding false investigations.
+If the main pain is lost ownership and manual follow-up, A fits, but only if existing plugins and automation do not already solve it.
+If it is a missed developing attack despite available signals, B fits, but it must improve recognition without adding false investigations.
 I did not treat either as an objective winner: I wanted to compare against Wazuh **and** the team's existing security tools, not Wazuh alone.
 
 ## Essential sources
@@ -80,17 +80,17 @@ I reconstructed this section after the original short comparison. Its source was
 
 After the expanded catalog and a redundant decision brief, I asked the AI to consolidate the material into one research document and delete the brief. I then asked for a clearer comparison before deciding:
 
-**My request — edited summary:**
+**My request (edited summary):**
 
 I had questions about the tradeoffs and wanted the AI to help me compare the alternatives through their main advantages and drawbacks.
 
-**My request — translated excerpt:**
+**My request (translated excerpt):**
 
 > Do not focus on making something very long. I only want the main points for and against the proposed alternatives, of which there are two:
 
 I wanted to compare alert management with AI-assisted evaluation and earlier recognition from related weak signals.
 
-**My request — translated excerpt:**
+**My request (translated excerpt):**
 
 > We should not focus on the solution for now, only on which need we are addressing.
 
@@ -98,7 +98,7 @@ I wanted the main arguments for and against each need so I could decide before d
 
 ### AI response
 
-**AI response — translated excerpt:**
+**AI response (translated excerpt):**
 
 > I will leave a single short research document focused on those **two needs**, covering the problem each addresses, its main pros and cons, and the essential sources. No further research and no architecture details. Then I will delete the decision brief.
 
@@ -114,19 +114,19 @@ I authorized document simplification and consolidation, not new research, archit
 
 ### Subsequent stage, not knowledge available to this comparison
 
-**My request — translated excerpt; surrounding personal context omitted:**
+**My request (translated excerpt; surrounding personal context omitted):**
 
 > Let's take into account the community review we set aside. I want you to bring back the information collected from the community to see whether it also helps us open up a third direction or settle on one of the two options.
 
 I asked to restore relevant community evidence and, in that same later request, authorized saving recoverable earlier states. I recovered this further cleanup instruction from the main conversation:
 
-**My request — translated excerpt recovered from the main conversation:**
+**My request (translated excerpt recovered from the main conversation):**
 
 > Do not include me or my experience in the research. Do not generate any new history.
 
 I asked to remove personal experience from the research and stop creating new historical versions automatically. The AI confirmed that it had removed those references and kept the research focused on needs and sources.
 
-**AI response — translated excerpt recovered from the main conversation:**
+**AI response (translated excerpt recovered from the main conversation):**
 
 > **I have not created any new version or modified the existing history.** No commit or push.
 

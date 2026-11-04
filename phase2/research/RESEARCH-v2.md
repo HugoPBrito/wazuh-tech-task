@@ -164,7 +164,7 @@ Seven distinct nonauthor accounts that appeared external originated or endorsed 
 
 **Target/job:** an MSSP operator wants customer-filtered searches, current-state inventories, and repeatable reports without hand-maintaining per-agent DLS or spreadsheets. [#32193](https://github.com/wazuh/wazuh/issues/32193), [#14980](https://github.com/wazuh/wazuh/issues/14980), and [#15227](https://github.com/wazuh/wazuh/issues/15227) address different metadata/taxonomy surfaces. [#14225's MSSP example](https://github.com/wazuh/wazuh/issues/14225#issuecomment-2118525042) adds a concrete operating workflow.
 
-**Workarounds/counterevidence:** labels can work, but multi-group semantics can be ambiguous; see the supplementary table. Native RBAC, indexer DLS, saved-object tenancy, and cross-cluster search already exist. C04–C06 are historical, version-scoped isolation reports, not a current exploit finding. A grouping convenience must never be presented as proof of a customer authorization boundary.
+**Workarounds/counterevidence:** labels can work, but multi-group semantics can be ambiguous; see the supplementary table. Native RBAC, indexer DLS, saved-object tenancy, and cross-cluster search already exist. C04-C06 are historical, version-scoped isolation reports, not a current exploit finding. A grouping convenience must never be presented as proof of a customer authorization boundary.
 
 ### Maintained Workspace ingestion and detection quality
 
@@ -201,14 +201,14 @@ These selected threads counter label bias and include closed issues. Status, com
 
 | Source / status / C / thumbs-up | Findings, outcome, and limitation |
 |---|---|
-| [Core #14225: filter Security events by agent.group](https://github.com/wazuh/wazuh/issues/14225) — open; 20 / 13 | 18 distinct nonauthor handles, not verified customers. [Concrete MSSP workflow](https://github.com/wazuh/wazuh/issues/14225#issuecomment-2118525042); [label workaround reported working](https://github.com/wazuh/wazuh/issues/14225#issuecomment-2412900965); [multi-group label ambiguity](https://github.com/wazuh/wazuh/issues/14225#issuecomment-1514488970). Accounts overlap #32193; do not sum them. |
-| [Core #11241: pause logcollector when buffers are full](https://github.com/wazuh/wazuh/issues/11241) — open; 1 / 0 | Bulk 50,000-line import and drop counters. [Maintainer discussion](https://github.com/wazuh/wazuh/issues/11241#issuecomment-989826193) explains stale-data, multiple-target, and rotation tradeoffs; pausing is not automatically zero-loss delivery. |
-| [Core #34601: indexer Prometheus observability](https://github.com/wazuh/wazuh/issues/34601) — open; 1 / 0 | A custom 4.14.2 image provides shard-capacity metrics for the reporter; another account supports the need. [Outcome](https://github.com/wazuh/wazuh/issues/34601#issuecomment-4271188489) suggests maintenance/packaging friction, not impossibility. |
-| [Core #13074: online SCA document editing](https://github.com/wazuh/wazuh/issues/13074) — open; 1 / 0 | A [4.5 deployment report](https://github.com/wazuh/wazuh/issues/13074#issuecomment-1098321857) says 450 of 1,000+ machines responded; this motivates rollout assurance as well as editing. One case is not broad demand. |
-| [Core #3337: integrator SQLite plugin](https://github.com/wazuh/wazuh/issues/3337) — open; 7 / 1 | SOC acknowledgement/classification; [proof-of-concept output works, UI unfinished](https://github.com/wazuh/wazuh/issues/3337#issuecomment-495991801). Author plus two project-side participants are not seven adopters. |
-| [Core #33328: send selected alerts to case management](https://github.com/wazuh/wazuh/issues/33328) — open; 0 / 0 | 4.14.1 Cloud request for single/bulk manual escalation and auditability; automatic forwarding over-escalates. Specific workflow evidence with no endorsement count beyond its author. |
-| [Core #6726: rule criteria for every alert field](https://github.com/wazuh/wazuh/issues/6726) — closed, not planned; 1 / 0 | Group/severity, IP metadata, and routing. [Closure points to a future Engine](https://github.com/wazuh/wazuh/issues/6726#issuecomment-1548107958), not delivery in 4.x. |
-| [Plugins #5666: rule editor and ampersands](https://github.com/wazuh/wazuh-dashboard-plugins/issues/5666) — closed, not planned; 4 / 0 | 4.4.4 CLI path works while dashboard editing fails. [Discussion](https://github.com/wazuh/wazuh-dashboard-plugins/issues/5666#issuecomment-1658247907); closure for inactivity is not fix evidence. |
+| [Core #14225: filter Security events by agent.group](https://github.com/wazuh/wazuh/issues/14225), open; 20 / 13 | 18 distinct nonauthor handles, not verified customers. [Concrete MSSP workflow](https://github.com/wazuh/wazuh/issues/14225#issuecomment-2118525042); [label workaround reported working](https://github.com/wazuh/wazuh/issues/14225#issuecomment-2412900965); [multi-group label ambiguity](https://github.com/wazuh/wazuh/issues/14225#issuecomment-1514488970). Accounts overlap #32193; do not sum them. |
+| [Core #11241: pause logcollector when buffers are full](https://github.com/wazuh/wazuh/issues/11241), open; 1 / 0 | Bulk 50,000-line import and drop counters. [Maintainer discussion](https://github.com/wazuh/wazuh/issues/11241#issuecomment-989826193) explains stale-data, multiple-target, and rotation tradeoffs; pausing is not automatically zero-loss delivery. |
+| [Core #34601: indexer Prometheus observability](https://github.com/wazuh/wazuh/issues/34601), open; 1 / 0 | A custom 4.14.2 image provides shard-capacity metrics for the reporter; another account supports the need. [Outcome](https://github.com/wazuh/wazuh/issues/34601#issuecomment-4271188489) suggests maintenance/packaging friction, not impossibility. |
+| [Core #13074: online SCA document editing](https://github.com/wazuh/wazuh/issues/13074), open; 1 / 0 | A [4.5 deployment report](https://github.com/wazuh/wazuh/issues/13074#issuecomment-1098321857) says 450 of 1,000+ machines responded; this motivates rollout assurance as well as editing. One case is not broad demand. |
+| [Core #3337: integrator SQLite plugin](https://github.com/wazuh/wazuh/issues/3337), open; 7 / 1 | SOC acknowledgement/classification; [proof-of-concept output works, UI unfinished](https://github.com/wazuh/wazuh/issues/3337#issuecomment-495991801). Author plus two project-side participants are not seven adopters. |
+| [Core #33328: send selected alerts to case management](https://github.com/wazuh/wazuh/issues/33328), open; 0 / 0 | 4.14.1 Cloud request for single/bulk manual escalation and auditability; automatic forwarding over-escalates. Specific workflow evidence with no endorsement count beyond its author. |
+| [Core #6726: rule criteria for every alert field](https://github.com/wazuh/wazuh/issues/6726), closed, not planned; 1 / 0 | Group/severity, IP metadata, and routing. [Closure points to a future Engine](https://github.com/wazuh/wazuh/issues/6726#issuecomment-1548107958), not delivery in 4.x. |
+| [Plugins #5666: rule editor and ampersands](https://github.com/wazuh/wazuh-dashboard-plugins/issues/5666), closed, not planned; 4 / 0 | 4.4.4 CLI path works while dashboard editing fails. [Discussion](https://github.com/wazuh/wazuh-dashboard-plugins/issues/5666#issuecomment-1658247907); closure for inactivity is not fix evidence. |
 
 ## Community evidence catalog
 
@@ -218,32 +218,32 @@ All 21 primary sources below were read by the research workers. Original metrics
 
 | ID and primary source | Observed discussion | Outcome and evidential limit |
 |---|---|---|
-| C01 — [Reporting layer](https://groups.google.com/g/wazuh/c/-bYUdw0mqAI) | 52 views; 2 messages; pagination, output formats, scheduling | A proposed reporting layer expresses workflow need; no completed independent product validation |
-| C02 — [Module reports](https://groups.google.com/g/wazuh/c/rPn3fO7yZlg) | 160 views; 8 messages | Scheduled dashboard reporting confirmed working; equivalent module reports remain requested |
-| C03 — [Per-agent reporting](https://groups.google.com/g/wazuh/c/ajH6P920mlo) | 169 views; 4 messages; monthly per-agent reports | Request evidence, not a claim all native reporting is absent |
-| C04 — [Customer isolation](https://groups.google.com/g/wazuh/c/isfTPrB-Nnk) | 149 views; 7 messages | Isolation questions; historical/version-scoped, not a verified current vulnerability |
-| C05 — [Related isolation thread](https://groups.google.com/g/wazuh/c/dtSFAGhZwEs) | 37 views; 2 messages | Related concerns; original attachment was unread, so attachment-dependent assertions remain unconfirmed |
-| C06 — [Multitenancy](https://groups.google.com/g/wazuh/c/VvyIMqv5Qtg) | 69 views; 6 messages | Partial-isolation/tenancy concerns; saved objects and data authorization are different surfaces |
-| C07 — [Installed versus running kernels](https://groups.google.com/g/wazuh/c/HCtVl92gDbI) | 62 views; 2 messages | Old installed kernels remain; an updated running kernel does not prove installed vulnerable packages are false positives |
-| C08 — [Understanding vulnerability reports](https://forums.lawrencesystems.com/t/understanding-vulnerability-reports/21079) | 2 posts; local-access CVE context | Prioritization context matters; exploitability and remediation outcome not established |
-| C09 — [UniFi syslog](https://forums.lawrencesystems.com/t/process-unifi-syslog-messages-in-wazuh/25522) | 3 posts; 1 like on a reply | Setup/connector friction; not evidence that ingestion cannot work |
-| C10 — [TrueNAS and Wazuh](https://forums.lawrencesystems.com/t/truenas-and-wazuh/26562) | 4 posts; 2 likes on a workaround | Existing workaround is counterevidence to wholesale absence; broad compatibility not tested |
-| C11 — [SIEM and observability choices](https://forums.lawrencesystems.com/t/zabbix-or-graylog-or-any-seim/23558) | 7 posts; 9 likes across replies | Mixed observability/SIEM discussion; likes cannot be assigned to one Wazuh feature |
+| C01, [Reporting layer](https://groups.google.com/g/wazuh/c/-bYUdw0mqAI) | 52 views; 2 messages; pagination, output formats, scheduling | A proposed reporting layer expresses workflow need; no completed independent product validation |
+| C02, [Module reports](https://groups.google.com/g/wazuh/c/rPn3fO7yZlg) | 160 views; 8 messages | Scheduled dashboard reporting confirmed working; equivalent module reports remain requested |
+| C03, [Per-agent reporting](https://groups.google.com/g/wazuh/c/ajH6P920mlo) | 169 views; 4 messages; monthly per-agent reports | Request evidence, not a claim all native reporting is absent |
+| C04, [Customer isolation](https://groups.google.com/g/wazuh/c/isfTPrB-Nnk) | 149 views; 7 messages | Isolation questions; historical/version-scoped, not a verified current vulnerability |
+| C05, [Related isolation thread](https://groups.google.com/g/wazuh/c/dtSFAGhZwEs) | 37 views; 2 messages | Related concerns; original attachment was unread, so attachment-dependent assertions remain unconfirmed |
+| C06, [Multitenancy](https://groups.google.com/g/wazuh/c/VvyIMqv5Qtg) | 69 views; 6 messages | Partial-isolation/tenancy concerns; saved objects and data authorization are different surfaces |
+| C07, [Installed versus running kernels](https://groups.google.com/g/wazuh/c/HCtVl92gDbI) | 62 views; 2 messages | Old installed kernels remain; an updated running kernel does not prove installed vulnerable packages are false positives |
+| C08, [Understanding vulnerability reports](https://forums.lawrencesystems.com/t/understanding-vulnerability-reports/21079) | 2 posts; local-access CVE context | Prioritization context matters; exploitability and remediation outcome not established |
+| C09, [UniFi syslog](https://forums.lawrencesystems.com/t/process-unifi-syslog-messages-in-wazuh/25522) | 3 posts; 1 like on a reply | Setup/connector friction; not evidence that ingestion cannot work |
+| C10, [TrueNAS and Wazuh](https://forums.lawrencesystems.com/t/truenas-and-wazuh/26562) | 4 posts; 2 likes on a workaround | Existing workaround is counterevidence to wholesale absence; broad compatibility not tested |
+| C11, [SIEM and observability choices](https://forums.lawrencesystems.com/t/zabbix-or-graylog-or-any-seim/23558) | 7 posts; 9 likes across replies | Mixed observability/SIEM discussion; likes cannot be assigned to one Wazuh feature |
 
 ### Ten additional sources
 
 | ID and primary source | Observed discussion | Outcome and evidential limit |
 |---|---|---|
-| C12 — [Help me find the alerts tab on Wazuh](https://groups.google.com/g/wazuh/c/-fNsty6bIUY) | 6 readable messages plus 1 deleted placeholder; 2 interested users, one already in the first-pass report | “investigate alerts, assign them mark them as closed.” IRIS/AlertManager plugin suggested; initial compatibility warning followed by author-reported 4.14 release. No installation confirmation. |
-| C13 — [Silence false/positive alerts](https://groups.google.com/g/wazuh/c/YjV7_eO3c54) | 5 messages; one user's hundreds of Slack notifications for successful remote-logon events | Source filtering confirmed working; a second Sysmon question has no confirmed resolution. The alert's classification as a false positive was not independently verified. |
-| C14 — [Workspace / G-Suite integration](https://groups.google.com/g/wazuh/c/fqmc8OpNtIk) | 7 messages; Workspace without GCP, Wazuh hosted on AWS | Extra GCP dependency unwanted; routing proposed, no completed outcome reported. This is deployment friction, not proof native ingestion is impossible. |
-| C15 — [Workspace logs update](https://groups.google.com/g/wazuh/c/5mzmOEkDQzQ) | 4 messages; [community connector](https://github.com/avanwouwe/wazuh-gworkspace) | An adopter reports success; claims of all audit-event coverage were not verified. |
-| C16 — [Custom dashboard and user creation](https://groups.google.com/g/wazuh/c/uV5NYWYZiw8) | 3 messages; one endpoint; Workspace ingestion already works; management dashboard and SOC L1/L2 roles desired | Completion unconfirmed; a response describes an expected asset denominator, not proof that metric is implemented. |
-| C17 — [Alert on lack of logs](https://groups.google.com/g/wazuh/c/qXLFlUWyQMs) | 3 messages plus 1 deleted placeholder; `who` output from 40 servers; per-asset silence desired | API/script concept unconfirmed. Example filters active agents and has placeholder notification logic; offline-agent coverage cannot be claimed. |
-| C18 — [Missing events after Filebeat crash](https://groups.google.com/g/wazuh/c/2TC71StiLTg) | 8 messages; distributed Alma 9.7 / Filebeat 7.10.2 setup | User confirms replay restored data, interruption recurs, and Zabbix systemd monitoring was added. Root cause remains unproven; AI-generated diagnosis in a thread is not evidence. |
-| C19 — [Centralized SCA policy deployment](https://github.com/wazuh/wazuh/discussions/38418) | 2 comments; 3 participants; 1 displayed vote; config arrives but endpoint YAML missing | Security-setting and SCP proposals are unconfirmed; no proven root cause or successful deployment outcome. |
-| C20 — [Manager inventory/vulnerability visibility](https://github.com/wazuh/wazuh/discussions/38968) | 1 comment plus requester reply; 2 participants; 1 vote; 4.14.7 manager agent 000 | `disable_scan_manager=0` resolves the user's case. [Requester confirmation](https://github.com/wazuh/wazuh/discussions/38968#discussioncomment-18331513): “Both the vulnerability detection and the syscollector indices for the Wazuh Manager host are now working perfectly.” |
-| C21 — [pfBlockerNG logs to Wazuh](https://forum.netgate.com/topic/180605/how-to-send-pfblockerng-logs-to-remote-log-server-wazuh-siem) | 26 posts; 4 posters; workaround with 3 votes | [Closing report](https://forum.netgate.com/post/1109302) confirms upstream syslog routing, not Wazuh detection quality. Readable HTML also carries a deleted-topic banner; continued availability is uncertain. |
+| C12, [Help me find the alerts tab on Wazuh](https://groups.google.com/g/wazuh/c/-fNsty6bIUY) | 6 readable messages plus 1 deleted placeholder; 2 interested users, one already in the first-pass report | “investigate alerts, assign them mark them as closed.” IRIS/AlertManager plugin suggested; initial compatibility warning followed by author-reported 4.14 release. No installation confirmation. |
+| C13, [Silence false/positive alerts](https://groups.google.com/g/wazuh/c/YjV7_eO3c54) | 5 messages; one user's hundreds of Slack notifications for successful remote-logon events | Source filtering confirmed working; a second Sysmon question has no confirmed resolution. The alert's classification as a false positive was not independently verified. |
+| C14, [Workspace / G-Suite integration](https://groups.google.com/g/wazuh/c/fqmc8OpNtIk) | 7 messages; Workspace without GCP, Wazuh hosted on AWS | Extra GCP dependency unwanted; routing proposed, no completed outcome reported. This is deployment friction, not proof native ingestion is impossible. |
+| C15, [Workspace logs update](https://groups.google.com/g/wazuh/c/5mzmOEkDQzQ) | 4 messages; [community connector](https://github.com/avanwouwe/wazuh-gworkspace) | An adopter reports success; claims of all audit-event coverage were not verified. |
+| C16, [Custom dashboard and user creation](https://groups.google.com/g/wazuh/c/uV5NYWYZiw8) | 3 messages; one endpoint; Workspace ingestion already works; management dashboard and SOC L1/L2 roles desired | Completion unconfirmed; a response describes an expected asset denominator, not proof that metric is implemented. |
+| C17, [Alert on lack of logs](https://groups.google.com/g/wazuh/c/qXLFlUWyQMs) | 3 messages plus 1 deleted placeholder; `who` output from 40 servers; per-asset silence desired | API/script concept unconfirmed. Example filters active agents and has placeholder notification logic; offline-agent coverage cannot be claimed. |
+| C18, [Missing events after Filebeat crash](https://groups.google.com/g/wazuh/c/2TC71StiLTg) | 8 messages; distributed Alma 9.7 / Filebeat 7.10.2 setup | User confirms replay restored data, interruption recurs, and Zabbix systemd monitoring was added. Root cause remains unproven; AI-generated diagnosis in a thread is not evidence. |
+| C19, [Centralized SCA policy deployment](https://github.com/wazuh/wazuh/discussions/38418) | 2 comments; 3 participants; 1 displayed vote; config arrives but endpoint YAML missing | Security-setting and SCP proposals are unconfirmed; no proven root cause or successful deployment outcome. |
+| C20, [Manager inventory/vulnerability visibility](https://github.com/wazuh/wazuh/discussions/38968) | 1 comment plus requester reply; 2 participants; 1 vote; 4.14.7 manager agent 000 | `disable_scan_manager=0` resolves the user's case. [Requester confirmation](https://github.com/wazuh/wazuh/discussions/38968#discussioncomment-18331513): “Both the vulnerability detection and the syscollector indices for the Wazuh Manager host are now working perfectly.” |
+| C21, [pfBlockerNG logs to Wazuh](https://forum.netgate.com/topic/180605/how-to-send-pfblockerng-logs-to-remote-log-server-wazuh-siem) | 26 posts; 4 posters; workaround with 3 votes | [Closing report](https://forum.netgate.com/post/1109302) confirms upstream syslog routing, not Wazuh detection quality. Readable HTML also carries a deleted-topic banner; continued availability is uncertain. |
 
 Additional discovery used Google Groups searches for `"false positive" rules`, `"case management"`, `"Google Workspace"`, and `"monitor" "manager" "health"`; site-scoped Lawrence/Netgate searches; and GitHub Discussions' latest listing. Search pages did not become primary sources. Reddit returned 403 or an HTML shell, including an older unsuccessful attempt, and is excluded. No private Slack/community data was accessed; public reports about Slack notifications are not private Slack access. Accounts may recur across sources.
 
@@ -397,14 +397,14 @@ The following are **third-party repositories, not Wazuh-organization endorsement
 
 | Candidate and root license | Visibility snapshot: stars / forks / open issues | Inspected interface and scope |
 |---|---|---|
-| [gensecaihq/Wazuh-MCP-Server](https://github.com/gensecaihq/Wazuh-MCP-Server) — MIT | 262 / 68 / 2 | Python Streamable HTTP `/mcp`; `/sse` returns 410; 55 default tools: 41 reads, 14 writes; manager + indexer; additional multi-cluster listing tool |
-| [lidless-labs/wazuh-mcp](https://github.com/lidless-labs/wazuh-mcp) — MIT | 8 / 1 / 6 | TypeScript, 28 registrations; stdio/Streamable HTTP; manager read surface and indexer POST searches; no active-response tools |
-| [0xFl4g/wazuh-mcp](https://github.com/0xFl4g/wazuh-mcp) — MIT | 0 / 0 / 0 | Python stdio/HTTP; 27 registered tools: 18 reads, 9 writes; tenant policies/credential pools; README heading still says 17 |
-| [socfortress/wazuh-mcp-server](https://github.com/socfortress/wazuh-mcp-server) — AGPL-3.0-only in manifest | 94 / 26 / 3 | Python stdio/HTTP bearer secret; 10 registered tools versus README's 9; manager-only agents, inventory, rules, SCA; current registered tools nonmutating |
+| [gensecaihq/Wazuh-MCP-Server](https://github.com/gensecaihq/Wazuh-MCP-Server), MIT | 262 / 68 / 2 | Python Streamable HTTP `/mcp`; `/sse` returns 410; 55 default tools: 41 reads, 14 writes; manager + indexer; additional multi-cluster listing tool |
+| [lidless-labs/wazuh-mcp](https://github.com/lidless-labs/wazuh-mcp), MIT | 8 / 1 / 6 | TypeScript, 28 registrations; stdio/Streamable HTTP; manager read surface and indexer POST searches; no active-response tools |
+| [0xFl4g/wazuh-mcp](https://github.com/0xFl4g/wazuh-mcp), MIT | 0 / 0 / 0 | Python stdio/HTTP; 27 registered tools: 18 reads, 9 writes; tenant policies/credential pools; README heading still says 17 |
+| [socfortress/wazuh-mcp-server](https://github.com/socfortress/wazuh-mcp-server), AGPL-3.0-only in manifest | 94 / 26 / 3 | Python stdio/HTTP bearer secret; 10 registered tools versus README's 9; manager-only agents, inventory, rules, SCA; current registered tools nonmutating |
 
 ### Candidate-specific constraints
 
-**gensecaihq:** inspected `src/wazuh_mcp_server/toolsets.py` and `server.py` support read/write scope checks; API keys default to read-only. Multi-cluster routing is not proof of tenant isolation: the inspected [dispatch path](https://github.com/gensecaihq/Wazuh-MCP-Server/blob/main/src/wazuh_mcp_server/server.py#L2931-L2983) takes a `cluster_id` from arguments and resolves it through the [registry](https://github.com/gensecaihq/Wazuh-MCP-Server/blob/main/src/wazuh_mcp_server/clusters.py#L93-L116), with no principal binding observed in that path. This is a scoped review concern, not a whole-project exploit finding. Compatibility documentation claims 4.8–4.14.7; older versions were not rechecked. [Issue #140](https://github.com/gensecaihq/Wazuh-MCP-Server/issues/140) reports external identity-provider/dynamic-client-registration incompatibility.
+**gensecaihq:** inspected `src/wazuh_mcp_server/toolsets.py` and `server.py` support read/write scope checks; API keys default to read-only. Multi-cluster routing is not proof of tenant isolation: the inspected [dispatch path](https://github.com/gensecaihq/Wazuh-MCP-Server/blob/main/src/wazuh_mcp_server/server.py#L2931-L2983) takes a `cluster_id` from arguments and resolves it through the [registry](https://github.com/gensecaihq/Wazuh-MCP-Server/blob/main/src/wazuh_mcp_server/clusters.py#L93-L116), with no principal binding observed in that path. This is a scoped review concern, not a whole-project exploit finding. Compatibility documentation claims 4.8-4.14.7; older versions were not rechecked. [Issue #140](https://github.com/gensecaihq/Wazuh-MCP-Server/issues/140) reports external identity-provider/dynamic-client-registration incompatibility.
 
 **lidless-labs:** the [manager client GET guard](https://github.com/lidless-labs/wazuh-mcp/blob/main/src/client.ts#L223-L235) is separate from authentication; indexer searches use POST without implying a write. HTTP bearer clients share an upstream identity, so per-user isolation does not follow from “read-only.” README reports least-privilege checks with 4.14.8, not a security certification. [Issue #37](https://github.com/lidless-labs/wazuh-mcp/issues/37) requests aggregations; the present 10,000-hit window is not proof of complete result totals.
 
@@ -468,17 +468,17 @@ I reconstructed this section from retained task exchanges. The recovered source 
 
 After the pause described in [V1](RESEARCH-v1.md#retrospective-process-context-how-this-draft-was-produced), I explicitly asked to resume research.
 
-**My request — translated message:**
+**My request (translated message):**
 
 > Continue the earlier research. Expand it in detail and produce a report citing where you obtained the data.
 
 I wanted a detailed expansion with sources. I then added integration foundations and competitor patterns:
 
-**My request — translated message:**
+**My request (translated message):**
 
 > Add information about a possible MCP to the research too, because it could serve as a foundation for many AI integrations.
 
-**My request — translated excerpt:**
+**My request (translated excerpt):**
 
 > I also want you to add information about alternatives to Wazuh and which SaaS features they have that Wazuh lacks, based on Elastic, Security Onion, Graylog, Splunk, CrowdStrike Falcon, Microsoft Sentinel, and others.
 
@@ -486,13 +486,13 @@ I wanted to assess MCP as a possible foundation and compare established alternat
 
 ### AI response
 
-**AI response — translated excerpt:**
+**AI response (translated excerpt):**
 
 > I will treat it as a possible integration foundation, not as an already selected solution.
 
 In its expanded-report response, the AI revised its earlier reporting lead:
 
-**AI response — translated excerpt:**
+**AI response (translated excerpt):**
 
 > In addition to reporting, we now have a concrete candidate: **helping the analyst move from an alert to an investigation with an owner, evidence, and closure**, with AI as support rather than a substitute for their decision.
 

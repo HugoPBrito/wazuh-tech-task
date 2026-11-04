@@ -163,7 +163,7 @@ I reconstructed this section from actual task exchanges; it was not part of the 
 
 ### My request
 
-**My request — translated excerpt:**
+**My request (translated excerpt):**
 
 > I want you to thoroughly research all open Wazuh issues that have a "feature request" label.
 
@@ -171,11 +171,11 @@ I also asked the AI to examine repeated requests, comments, reactions, public fo
 
 I then clarified that I wanted the research trail as a deliverable, not just advice in the chat:
 
-**My request — translated excerpt:**
+**My request (translated excerpt):**
 
 > That is, what it says: sources, notes, prompts, conversations that have led me to choose that solution.
 
-**My request — translated message:**
+**My request (translated message):**
 
 > Do not add dates. Create both documents in parallel, also including these prompts for setting up your work.
 
@@ -183,11 +183,11 @@ I asked for the sources and decision-making exchanges in two local artifacts, cr
 
 ### AI response
 
-**AI activity — recorded summary, not a quotation or translation:** three independent, read-only readers returned core, non-core, and community/documentation findings. The main assistant synthesized them, initially favoring reporting and customer operations while checking existing native features. They did not reach an inter-agent consensus, and I had not made a choice.
+**AI activity (recorded summary, not a quotation or translation):** three independent, read-only readers returned core, non-core, and community/documentation findings. The main assistant synthesized them, initially favoring reporting and customer operations while checking existing native features. They did not reach an inter-agent consensus, and I had not made a choice.
 
 I recovered this reply from the main conversation:
 
-**AI response — translated excerpt recovered from the main conversation:**
+**AI response (translated excerpt recovered from the main conversation):**
 
 > Yes, and **my reply in the chat does not replace that deliverable**.
 
@@ -205,7 +205,7 @@ I authorized public-source research and local Markdown, not implementation or au
 
 I later asked to pause research-document construction so I could continue the discussion:
 
-**My request — translated excerpt:**
+**My request (translated excerpt):**
 
 > But we will build the research document at the end, based on those logs.
 
