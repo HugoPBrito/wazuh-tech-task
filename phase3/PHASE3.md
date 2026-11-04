@@ -323,7 +323,6 @@ An illustrative deadline allocation is authorization/admission **2 seconds**, in
 Editable source: [request-sequence.mmd](assets/diagrams/request-sequence.mmd). This successful hosted-assistant path uses the SaaS-private instance of the official open-source MCP and the entire four-tool budget. Dependent steps stop on failure; this is not a model-call limit for community clients.
 
 ```mermaid
-%%{init: {"theme": "base", "themeVariables": {"darkMode": false, "background": "#ffffff", "primaryTextColor": "#243140", "textColor": "#243140", "lineColor": "#334155", "arrowheadColor": "#334155", "actorBkg": "#f1f3f5", "actorBorder": "#586574", "actorTextColor": "#243140", "actorLineColor": "#334155", "signalColor": "#334155", "signalTextColor": "#243140", "noteBkgColor": "#f8fafc", "noteTextColor": "#243140", "noteBorderColor": "#586574"}}}%%
 sequenceDiagram
     actor Analyst
     participant UI as Cloud chat UI
